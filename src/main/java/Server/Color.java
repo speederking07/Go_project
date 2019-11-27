@@ -18,4 +18,10 @@ public enum Color {
         if (this == Color.White) return Color.Black;
         return Color.White;
     }
+
+    @Override
+    public String toString() {
+        if (this == Color.White) return "WHITE";
+        return "BLACK";
+    }
 }

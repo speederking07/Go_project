@@ -1,6 +1,6 @@
 package Server;
 
-import Server.Exeprions.SuicideException;
+import Server.Exceprions.SuicideException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

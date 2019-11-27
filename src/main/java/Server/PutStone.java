@@ -7,4 +7,11 @@ public class PutStone implements Move{
         this.x = x;
         this.y = y;
     }
+
+    @Override
+    public String toString() {
+        return "PUTSTONE" +
+                " " + x +
+                " " + y;
+    }
 }

@@ -1,6 +1,4 @@
-package Server.Exeprions;
-
-import Server.Server;
+package Server.Exceprions;
 
 public class IllegalMoveException extends Exception {
 }

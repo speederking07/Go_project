@@ -1,7 +1,8 @@
 package Server;
 
-import Server.Exeprions.IllegalMoveException;
-import Server.Exeprions.KoException;
+import Server.Exceprions.ConnectionTroubleException;
+import Server.Exceprions.IllegalMoveException;
+import Server.Exceprions.KoException;
 
 public class Game implements Runnable {
     private Color turn = Color.Black;
@@ -36,24 +37,31 @@ public class Game implements Runnable {
 
     @Override
     public void run() {
-        while (moves[0] instanceof Pass && moves[1] instanceof Pass) {
-            IllegalMoveException exception = null;
-            try {
-                makeMove(player[turn.getIndex()].getMove());
-            } catch (IllegalMoveException ex) {
-                exception = ex;
-            }
-            while (exception != null){
+        try {
+            while (moves[0] instanceof Pass && moves[1] instanceof Pass) {
+                IllegalMoveException exception = null;
                 try {
-                    makeMove(player[turn.getIndex()].wrongMove(exception));
+                    makeMove(player[turn.getIndex()].getMove(moves[turn.getOpposite().getIndex()], curr));
                 } catch (IllegalMoveException ex) {
                     exception = ex;
                 }
+                while (exception != null) {
+                    try {
+                        makeMove(player[turn.getIndex()].wrongMove(exception));
+                    } catch (IllegalMoveException ex) {
+                        exception = ex;
+                    }
+                }
+                turn = turn.getOpposite();
             }
-            turn = turn.getOpposite();
+        }catch (ConnectionTroubleException ex)
+        {
+            //Unfinished game
+            player[0].endGame("ConnectionTrouble",1,0);
+            player[0].endGame("ConnectionTrouble",0,1);
         }
         //TODO: Results
-        player[0].endGame(1,0);
-        player[0].endGame(0,1);
+        player[0].endGame("2 pass",1,0);
+        player[0].endGame("2 pass",0,1);
     }
 }

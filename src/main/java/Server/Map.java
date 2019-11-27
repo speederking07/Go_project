@@ -1,8 +1,8 @@
 package Server;
 
-import Server.Exeprions.IllegalMoveException;
-import Server.Exeprions.IllegalPositionException;
-import Server.Exeprions.SuicideException;
+import Server.Exceprions.IllegalMoveException;
+import Server.Exceprions.IllegalPositionException;
+import Server.Exceprions.SuicideException;
 
 import java.util.Arrays;
 
