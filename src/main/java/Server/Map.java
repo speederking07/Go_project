@@ -65,6 +65,10 @@ public class Map implements Cloneable {
         refactor();
     }
 
+    public int getSize() {
+        return size;
+    }
+
     private int replace(int old, int n) {
         int counter = 0;
         for (int i = 1; i <= size; i++) {
@@ -84,10 +88,9 @@ public class Map implements Cloneable {
         StringBuilder builder = new StringBuilder(size * size);
         for (int i = 1; i <= size; i++) {
             for (int j = 1; j <= size; j++) {
-                if (map[i][j] == 0) builder.append(emptyChar);
+                if (map[i][j] % 3 == 0) builder.append(emptyChar);
                 else if (map[i][j] % 3 == 2) builder.append(whiteChar);
                 else if (map[i][j] % 3 == 1) builder.append(blackChar);
-                else builder.append('#');
             }
         }
         return builder.toString();

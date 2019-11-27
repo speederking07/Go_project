@@ -29,4 +29,22 @@ class ServerTest {
         }
         t.stop();
     }
+
+    @Test
+    void conection() {
+        Thread t = new Thread(() -> {
+            new Server(3213);
+        });
+        t.start();
+        try {
+            Socket socket = new Socket("localhost", 3213);
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+            in.readLine();
+            out.println("HUMAN!9");
+        } catch (IOException e) {
+            Assertions.fail();
+        }
+        t.stop();
+    }
 }

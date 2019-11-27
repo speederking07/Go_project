@@ -38,7 +38,7 @@ public class Game implements Runnable {
     @Override
     public void run() {
         try {
-            while (moves[0] instanceof Pass && moves[1] instanceof Pass) {
+            while (!(moves[0] instanceof Pass) && !(moves[1] instanceof Pass)) {
                 IllegalMoveException exception = null;
                 try {
                     makeMove(player[turn.getIndex()].getMove(moves[turn.getOpposite().getIndex()], curr));

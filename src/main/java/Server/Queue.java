@@ -8,13 +8,13 @@ import java.util.List;
 public class Queue {
     private volatile static Queue instance;
     private HumanPlayer waitFor9, waitFor13, waitFor19;
-    private List<Game> games;
+    //private List<Thread> games;
 
     private Queue(){
         waitFor9 = null;
         waitFor13 = null;
         waitFor19 = null;
-        games = new ArrayList<Game>();
+        //games = new ArrayList<Game>();
     }
 
     private void createGame(Player p1, Player p2, int size){
@@ -25,7 +25,9 @@ public class Queue {
             p1.endGame("ConnectionTrouble", 0, 0);
             p2.endGame("ConnectionTrouble", 0, 0);
         }
-        games.add(new Game(p1,p2,size));
+        Thread t = new Thread(new Game(p1,p2,size));
+        t.start();
+        //games.add(new Game(p1,p2,size));
     }
 
     public void makeGameWithPlayer(HumanPlayer hp, int size){
