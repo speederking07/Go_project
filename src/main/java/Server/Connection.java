@@ -32,7 +32,7 @@ public class Connection implements Runnable{
         }
     }
 
-    final public void say(String msg) throws ConnectionTroubleException {
+    final public void say(String msg) {
         out.println(msg);
     }
 

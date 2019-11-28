@@ -15,14 +15,14 @@ public class Bot implements Player {
     }
 
     @Override
-    public Move getMove(Move prevMove, Map map) throws ConnectionTroubleException {
+    public Move getMove(Move prevMove, Map map) {
         currentMap = map.clone();
         Random rand = new Random();
         return new PutStone(rand.nextInt(size), rand.nextInt(size));
     }
 
     @Override
-    public Move wrongMove(IllegalMoveException ex) throws ConnectionTroubleException {
+    public Move wrongMove(IllegalMoveException ex) {
         Random rand = new Random();
         return new PutStone(rand.nextInt(size), rand.nextInt(size));
     }
@@ -33,7 +33,7 @@ public class Bot implements Player {
     }
 
     @Override
-    public void startGame(Color c) throws ConnectionTroubleException {
+    public void startGame(Color c) {
         color = c;
     }
 }
