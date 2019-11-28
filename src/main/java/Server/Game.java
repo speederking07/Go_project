@@ -33,7 +33,8 @@ public class Game implements Runnable {
         if (move instanceof PutStone) {
             PutStone p = (PutStone) move;
             int pow = curr.putStone(p.x, p.y, turn);
-            if (prev.toString().equals(curr.toString())) throw new KoException();
+            if (!(moves[turn.getOpposite().getIndex()] instanceof Pass) &&
+                    prev.toString().equals(curr.toString())) throw new KoException();
             prev = safeCopy;
             POW[turn.getIndex()] += pow;
         }
