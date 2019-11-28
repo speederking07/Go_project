@@ -3,13 +3,14 @@ package Server;
 import Server.Exceprions.IllegalMoveException;
 import Server.Exceprions.IllegalPositionException;
 import Server.Exceprions.SuicideException;
+import org.javatuples.Pair;
 
 import java.util.Arrays;
 
 public class Map implements Cloneable {
-    private static final char emptyChar = 'E';
-    private static final char whiteChar = 'W';
-    private static final char blackChar = 'B';
+    private static final char EMPTY_CHAR = 'E';
+    private static final char WHITE_CHAR = 'W';
+    private static final char BLACK_CHAR = 'B';
     private int size;
     /*
     0 - empty
@@ -44,13 +45,13 @@ public class Map implements Cloneable {
             map[i][0] = 0;
             for (int j = 1; j <= size; j++) {
                 switch (data.charAt(characterCounter)) {
-                    case emptyChar:
+                    case EMPTY_CHAR:
                         map[i][j] = 0;
                         break;
-                    case whiteChar:
+                    case WHITE_CHAR:
                         map[i][j] = 3 * (i*size + j) + 2;
                         break;
-                    case blackChar:
+                    case BLACK_CHAR:
                         map[i][j] = 3 * (i*size + j) + 1;
                         break;
                     default:
@@ -82,15 +83,57 @@ public class Map implements Cloneable {
         return counter;
     }
 
+    private int replaceArea(int x, int y, int old, int n) {
+        if(map[x][y] != old) return 0;
+        map[x][y] = n;
+        int counter = 1;
+        for(Direction dir : Direction.directions())
+        {
+            counter += replaceArea(x+dir.getX(), y+dir.getY(), old, n);
+        }
+        return counter;
+    }
+
+    /*
+    0 - no checked
+    3 - special
+    6 - black area
+    9 - white area
+    12 - contestant area
+     */
+    public Pair<Integer, Integer> getAreaPoints(){
+        replace(6, 0);
+        replace(9, 0);
+        replace(12, 0);
+        int blackArea = 0;
+        int whiteArea = 0;
+        for (int i = 1; i <= size; i++) {
+            for (int j = 1; j <= size; j++) {
+                if(map[i][j] % 3 == 1) {
+                    for (Direction dir : Direction.directions()) {
+                        blackArea += replaceArea(i + dir.getX(), j + dir.getY(), 0, 6);
+                        whiteArea -= replaceArea(i + dir.getX(), j + dir.getY(), 9, 12);
+                    }
+                }
+                else if(map[i][j] % 3 == 2) {
+                    for (Direction dir : Direction.directions()) {
+                        whiteArea += replaceArea(i + dir.getX(), j + dir.getY(), 0, 9);
+                        blackArea -= replaceArea(i + dir.getX(), j + dir.getY(), 6, 12);
+                    }
+                }
+            }
+        }
+        return new Pair<>(blackArea, whiteArea);
+    }
 
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder(size * size);
         for (int i = 1; i <= size; i++) {
             for (int j = 1; j <= size; j++) {
-                if (map[i][j] % 3 == 0) builder.append(emptyChar);
-                else if (map[i][j] % 3 == 2) builder.append(whiteChar);
-                else if (map[i][j] % 3 == 1) builder.append(blackChar);
+                if (map[i][j] % 3 == 0) builder.append(EMPTY_CHAR);
+                else if (map[i][j] % 3 == 2) builder.append(WHITE_CHAR);
+                else if (map[i][j] % 3 == 1) builder.append(BLACK_CHAR);
             }
         }
         return builder.toString();

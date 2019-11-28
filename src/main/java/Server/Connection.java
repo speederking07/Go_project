@@ -9,21 +9,20 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class Connection implements Runnable{
-    private static final String pingString = "PING";
+    private static final String PING_STRING = "PING";
     private BufferedReader in;
     private PrintWriter out;
     private Socket socket;
-    private Thread thread;
 
     Connection(Socket s) throws IOException {
         socket = s;
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new PrintWriter(socket.getOutputStream(), true);
-        thread = new Thread(this);
+        Thread thread = new Thread(this);
         thread.start();
     }
 
-    public String communicate(String msg) throws ConnectionTroubleException {
+    final public String communicate(String msg) throws ConnectionTroubleException {
         out.println(msg);
         try {
             return in.readLine();
@@ -33,13 +32,13 @@ public class Connection implements Runnable{
         }
     }
 
-    public void say(String msg) throws ConnectionTroubleException {
+    final public void say(String msg) throws ConnectionTroubleException {
         out.println(msg);
     }
 
-    public boolean isAlive() {
+    final public boolean isAlive() {
         try {
-            if (communicate(pingString).equals(pingString)) return true;
+            if (communicate(PING_STRING).equals(PING_STRING)) return true;
             else socket.close();
         } catch (ConnectionTroubleException | IOException ex) {
             System.out.println("unable to close connection");
@@ -48,7 +47,7 @@ public class Connection implements Runnable{
     }
 
     @Override
-    public void run() {
+    final public void run() {
         try {
             String ans = communicate("HEY");
             String[] data = ans.split("!");

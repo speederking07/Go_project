@@ -1,6 +1,7 @@
 package Server;
 
 import Server.Exceprions.SuicideException;
+import org.javatuples.Pair;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -60,5 +61,13 @@ class MapTest {
             m.putStone(0, 0, Color.Black);
         });
 
+    }
+
+    @Test
+    void areaCounter(){
+        Map m = new Map(4, "EEEEWWWWBBBBEEEE");
+        Pair<Integer, Integer> p = m.getAreaPoints();
+        Assertions.assertEquals(4, (int) p.getValue0());
+        Assertions.assertEquals(4, (int) p.getValue1());
     }
 }

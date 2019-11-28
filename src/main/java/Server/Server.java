@@ -5,7 +5,7 @@ import java.net.*;
 import java.util.ArrayList;
 
 class Server {
-    ServerSocket server = null;
+    ServerSocket server;
     ArrayList<Connection> connections;
 
     Server(int port) {
