@@ -1,10 +1,15 @@
-import javax.swing.*;
+package Client;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
 public class chooseBoard extends JFrame implements ActionListener
 {
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     JLabel chooseBoardJLabel;
     JLabel choosePlayerJLabel;
     JLabel statusJLabel;
@@ -16,11 +21,15 @@ public class chooseBoard extends JFrame implements ActionListener
     JToggleButton botJToggleButton;
     JToggleButton playerJToggleButton;
     JButton playJButton;
-    boolean sizeSelected=false;
-    boolean playerSelected=false;
+    boolean sizeSelected;
+    boolean playerSelected;
     int boardSize;
+    String opponent;
     public chooseBoard()
     {
+        sizeSelected=false;
+        playerSelected=false;
+
         chooseBoardJLabel = new JLabel("Wybierz rozmiar",JLabel.CENTER);
         choosePlayerJLabel = new JLabel("Wybierz przeciwnika",JLabel.CENTER);
         statusJLabel = new JLabel("Status",JLabel.CENTER);
@@ -72,7 +81,6 @@ public class chooseBoard extends JFrame implements ActionListener
         setVisible(true);
     }
 
-    @Override
     public void actionPerformed(ActionEvent e)
     {
         if(e.getActionCommand().equals("9x9"))
@@ -112,6 +120,7 @@ public class chooseBoard extends JFrame implements ActionListener
                 playerSelected=true;
             else
                 playerSelected=false;
+            opponent="BOT";
         }
         if(e.getActionCommand().equals("Gracz"))
         {
@@ -120,20 +129,25 @@ public class chooseBoard extends JFrame implements ActionListener
                 playerSelected=true;
             else
                 playerSelected=false;
+            opponent="HUMAN";
         }
         if(e.getActionCommand().equals("Graj"))
         {
             if(sizeSelected && playerSelected)
             {
-                setVisible(false);
-                new playGo(boardSize);
+                statusInfoJLabel.setText("Laczenie z serwerem");
+                new playGo(boardSize, opponent);
             }
+            if(!sizeSelected)
+                JOptionPane.showMessageDialog(this, "Wybierz rozmiar");                
+            if(!playerSelected)
+                JOptionPane.showMessageDialog(this, "Wybierz gracza");                
         }
     }
 
 
     public static void main(String args[])
     {
-        chooseBoard cg = new chooseBoard();
+        new chooseBoard();
     }
 }

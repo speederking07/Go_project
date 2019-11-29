@@ -1,22 +1,33 @@
+package Client;
 import javax.swing.*;
 
 import java.awt.*;
-import java.awt.event.*;
 
-class playGo extends JFrame
+public class playGo extends JFrame
 {
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     panelBoard myPanelBoard;
     panelAction myPanelAction;
-    public playGo(int boardSize)
+    client goClient;
+    public playGo(int boardSize, String opponent)
     {
-        myPanelBoard=new panelBoard(boardSize);
-        myPanelAction=new panelAction();
+        myPanelAction=new panelAction(goClient);
+        myPanelBoard=new panelBoard(boardSize, goClient);
         setLayout(new BorderLayout());
+
         add(myPanelBoard, BorderLayout.CENTER);
         add(myPanelAction, BorderLayout.LINE_END);
+
+        goClient.getInstance(myPanelBoard, myPanelAction, this);
+        goClient.sendToServer(opponent + "!" + boardSize);
+        goClient.sendToServer("WAITING");
+
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
     }
 
 
