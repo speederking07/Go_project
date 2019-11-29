@@ -18,7 +18,7 @@ public class Game implements Runnable {
         player[0] = p1;
         player[1] = p2;
         POW = new int[2];
-        moves = new Move[2];
+        moves = new Move[]{ new GiveUp(), new GiveUp()};
         prev = new Map(boardSize);
         curr = new Map(boardSize);
     }
