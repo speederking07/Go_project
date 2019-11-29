@@ -24,8 +24,12 @@ public class Connection implements Runnable{
 
     final public String communicate(String msg) throws ConnectionTroubleException {
         out.println(msg);
+        System.out.println("Sent: "+msg);
         try {
-            return in.readLine();
+            String s = in.readLine();
+            System.out.println("Received: "+msg);
+            return s;
+
         } catch (IOException e) {
             System.out.println("Read failed");
             throw new ConnectionTroubleException();
@@ -33,6 +37,7 @@ public class Connection implements Runnable{
     }
 
     final public void say(String msg) {
+        System.out.println("Sent: "+msg);
         out.println(msg);
     }
 

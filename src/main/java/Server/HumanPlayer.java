@@ -23,11 +23,7 @@ public class HumanPlayer implements Player {
 
     @Override
     public void endGame(String reason, int yoursPoints, int otherPoints) {
-        try {
-            connection.say("ENDGAME!" + reason + "!" + yoursPoints + "!" + otherPoints);
-        }catch (ConnectionTroubleException ex){
-            System.out.println(ex);
-        }
+        connection.say("ENDGAME!" + reason + "!" + yoursPoints + "!" + otherPoints);
     }
 
     @Override
