@@ -27,7 +27,7 @@ public class Connection implements Runnable{
         System.out.println("Sent: "+msg);
         try {
             String s = in.readLine();
-            System.out.println("Received: "+msg);
+            System.out.println("Received: "+s);
             return s;
 
         } catch (IOException e) {
