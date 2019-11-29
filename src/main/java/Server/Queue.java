@@ -2,11 +2,17 @@ package Server;
 
 import Server.Exceprions.ConnectionTroubleException;
 
+/**
+ * Singleton responsible of matchmaking
+ */
 final public class Queue {
     private volatile static Queue instance;
     private HumanPlayer waitFor9, waitFor13, waitFor19;
     //private List<Thread> games;
 
+    /**
+     * Basic constructor of singleton
+     */
     private Queue() {
         waitFor9 = null;
         waitFor13 = null;
@@ -14,6 +20,10 @@ final public class Queue {
         //games = new ArrayList<Game>();
     }
 
+
+    /**
+     * @return - instance of Queue
+     */
     public static Queue getInstance() {
         if (instance == null) {
             synchronized (Queue.class) {
@@ -23,6 +33,12 @@ final public class Queue {
         return instance;
     }
 
+    /**
+     * Creates games and starts thread of specific game
+     * @param p1 - black player
+     * @param p2 - white player
+     * @param size - board size
+     */
     private void createGame(Player p1, Player p2, int size) {
         try {
             p1.startGame(Color.Black);
@@ -36,6 +52,11 @@ final public class Queue {
         //games.add(new Game(p1,p2,size));
     }
 
+    /**
+     * Creates game with another player or puts hit to the queue
+     * @param hp - player
+     * @param size - size of board
+     */
     public synchronized void makeGameWithPlayer(HumanPlayer hp, int size) {
         if (size == 9) {
             if (waitFor9 != null) {
@@ -52,6 +73,11 @@ final public class Queue {
         }
     }
 
+    /**
+     * Creates game with bot
+     * @param hp - player
+     * @param size - size of board
+     */
     public void makeGameWithBot(HumanPlayer hp, int size) {
         if (size == 9) {
             createGame(hp, new Bot(size), size);

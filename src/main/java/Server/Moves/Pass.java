@@ -1,4 +1,4 @@
-package Server;
+package Server.Moves;
 
 public class Pass implements Move {
     @Override

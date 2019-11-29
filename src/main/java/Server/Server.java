@@ -4,10 +4,17 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 
+/**
+ *  Class responsible of connections handling
+ */
 class Server {
     ServerSocket server;
     ArrayList<Connection> connections;
 
+    /**
+     * Basic constructor of Server
+     * @param port - Port to use
+     */
     Server(int port) {
         connections = new ArrayList<>();
         try {
@@ -21,6 +28,9 @@ class Server {
         }
     }
 
+    /**
+     * Accepts connections and creates a Connection object to handle communication
+     */
     void connect() {
         try {
             connections.add(new Connection(server.accept()));
@@ -30,6 +40,10 @@ class Server {
         }
     }
 
+    /**
+     * Just a main
+     * @param args
+     */
     public static void main(String[] args) {
         Server server = new Server(4444);
     }

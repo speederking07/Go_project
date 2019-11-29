@@ -7,20 +7,30 @@ import org.javatuples.Pair;
 
 import java.util.Arrays;
 
+/**
+ * Class representing state of games board
+ */
 public class Map implements Cloneable {
     private static final char EMPTY_CHAR = 'E';
     private static final char WHITE_CHAR = 'W';
     private static final char BLACK_CHAR = 'B';
     private int size;
     /*
-    0 - empty
-    3 - border
+    0 - no checked
+    3 - special
+    6 - black area
+    9 - white area
+    12 - contestant area
     3x+1 - black player
     3x+2 - white player
      */
     private int[][] map;
-    private int freeW, freeB;
+    private int freeW, freeB; // Next free index to chains
 
+    /**
+     * Constructor of empty map
+     * @param size - board size
+     */
     public Map(int size) {
         this.size = size;
         map = new int[size + 2][size + 2];
@@ -35,6 +45,12 @@ public class Map implements Cloneable {
         freeB = 1;
     }
 
+    /**
+     * Constructor of map by string representation
+     * @param size - size of board
+     * @param data - string representation of board
+     * @throws IllegalArgumentException - in case of wrong string
+     */
     public Map(int size, String data) throws IllegalArgumentException {
         this.size = size;
         map = new int[size + 2][size + 2];
@@ -66,10 +82,19 @@ public class Map implements Cloneable {
         refactor();
     }
 
+    /**
+     * @return - board size
+     */
     public int getSize() {
         return size;
     }
 
+    /**
+     * Replace of fields with old value to n value
+     * @param old - value to be replaced
+     * @param n - value to replaced with
+     * @return - number to changes
+     */
     private int replace(int old, int n) {
         int counter = 0;
         for (int i = 1; i <= size; i++) {
@@ -83,6 +108,14 @@ public class Map implements Cloneable {
         return counter;
     }
 
+    /**
+     * Function to replace specific area(group of fields with the same value) with new values
+     * @param x - x position
+     * @param y - y position
+     * @param old - value to be replaced
+     * @param n - value to replaced with
+     * @return - number to changes
+     */
     private int replaceArea(int x, int y, int old, int n) {
         if(map[x][y] != old) return 0;
         map[x][y] = n;
@@ -94,12 +127,9 @@ public class Map implements Cloneable {
         return counter;
     }
 
-    /*
-    0 - no checked
-    3 - special
-    6 - black area
-    9 - white area
-    12 - contestant area
+    /**
+     * Computes size of taken area by both players
+     * @return - (BlackArea, WhiteArea)
      */
     public Pair<Integer, Integer> getAreaPoints(){
         replace(6, 0);
@@ -126,6 +156,9 @@ public class Map implements Cloneable {
         return new Pair<>(blackArea, whiteArea);
     }
 
+    /**
+     * @return - string representation of board
+     */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder(size * size);
@@ -139,6 +172,12 @@ public class Map implements Cloneable {
         return builder.toString();
     }
 
+    /**
+     * Checks if chain has breaths
+     * @param x - chain x position
+     * @param y - chain y position
+     * @return - true if has breaths
+     */
     private boolean hasBreaths(int x, int y) {
         int curr = map[x][y];
         for (int i = 1; i <= size; i++) {
@@ -153,6 +192,9 @@ public class Map implements Cloneable {
         return false;
     }
 
+    /**
+     * Connects stones into chains of the same id
+     */
     public void refactor() {
         freeW = 2;
         freeB = 1;
@@ -174,10 +216,23 @@ public class Map implements Cloneable {
         freeB += 3;
     }
 
+    /**
+     * Deep cLone map
+     * @return - cloned map
+     */
     public Map clone(){
+        //TODO: Performence to improve
         return new Map(size, toString());
     }
 
+    /**
+     * Function to modify map by one stone
+     * @param x - x portion to put stone
+     * @param y - y portion to put stone
+     * @param color - color of stone
+     * @return - number of "killed" enemy stones
+     * @throws IllegalMoveException - if move was invalid
+     */
     public int putStone(int x, int y, Color color) throws IllegalMoveException {
         x++;
         y++;

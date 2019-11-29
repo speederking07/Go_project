@@ -1,9 +1,16 @@
-package Server;
+package Server.Moves;
 
 public interface Move {
+    /**
+     * Changes string to Move instance
+     * @param s - string representation
+     * @return - Move instance
+     * @throws IllegalArgumentException - in case of invalid string
+     */
     static Move getMove(String s) throws IllegalArgumentException{
         if(s.equals("PASS")) return new Pass();
         else if (s.equals("GIVEUP")) return new GiveUp();
+        else if (s.equals("EMPTY")) return new Empty();
         else{
             String[] data = s.split(" ");
             if(data[0].equals("PUTSTONE")) {

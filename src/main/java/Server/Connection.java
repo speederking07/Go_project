@@ -8,12 +8,20 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+/**
+ * Class responsible to handling single connection to client
+ */
 public class Connection implements Runnable{
     private static final String PING_STRING = "PING";
     private BufferedReader in;
     private PrintWriter out;
     private Socket socket;
 
+    /**
+     * Constructor of connection
+     * @param s - socket used to connect
+     * @throws IOException - in case to connection troubles
+     */
     Connection(Socket s) throws IOException {
         socket = s;
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -22,6 +30,12 @@ public class Connection implements Runnable{
         thread.start();
     }
 
+    /**
+     * Sends and receives message from client
+     * @param msg - message to sent
+     * @return - received message
+     * @throws ConnectionTroubleException - in case to connection troubles
+     */
     final public String communicate(String msg) throws ConnectionTroubleException {
         out.println(msg);
         System.out.println("Sent: "+msg);
@@ -36,11 +50,19 @@ public class Connection implements Runnable{
         }
     }
 
+    /**
+     * Sends amessage from client
+     * @param msg - message to sent
+     */
     final public void say(String msg) {
         System.out.println("Sent: "+msg);
         out.println(msg);
     }
 
+    /**
+     * Used to ping client
+     * @return - true if client is connected
+     */
     final public boolean isAlive() {
         try {
             if (communicate(PING_STRING).equals(PING_STRING)) return true;
@@ -51,6 +73,9 @@ public class Connection implements Runnable{
         return false;
     }
 
+    /**
+     * Thread body used to initialize game on server
+     */
     @Override
     final public void run() {
         try {

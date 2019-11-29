@@ -1,10 +1,12 @@
 package Server;
 
-import Server.Exceprions.ConnectionTroubleException;
 import Server.Exceprions.IllegalMoveException;
+import Server.Moves.Move;
+import Server.Moves.PutStone;
 
 import java.util.Random;
 
+//TODO: Whole bot body
 public class Bot implements Player {
     Color color;
     Map currentMap;

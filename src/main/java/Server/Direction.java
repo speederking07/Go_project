@@ -1,5 +1,8 @@
 package Server;
 
+/**
+ * Simple enum to represent direction
+ */
 public enum Direction {
     N(-1, 0),
     W(0, -1),
@@ -14,6 +17,9 @@ public enum Direction {
         YAx = y;
     }
 
+    /**
+     * @return - array of every passable direction
+     */
     static Direction[] directions() {
         return new Direction[]{N, W, S, E};
     }

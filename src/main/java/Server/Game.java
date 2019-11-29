@@ -4,30 +4,50 @@ import Server.Exceprions.ConnectionTroubleException;
 import Server.Exceprions.GiveUpException;
 import Server.Exceprions.IllegalMoveException;
 import Server.Exceprions.KoException;
+import Server.Moves.*;
 import org.javatuples.Pair;
 
+/**
+ * Class represents game state
+ */
 public class Game implements Runnable {
     private Color turn = Color.Black;
     private Player[] player;
     private Move[] moves;
     private Map prev, curr;
-    private int[] POW;
+    private int[] POW; //Taken enemy stones
 
+    /**
+     * Creates games
+     * @param p1 - black player
+     * @param p2 - white player
+     * @param boardSize - board size
+     */
     public Game(Player p1, Player p2, int boardSize) {
         player = new Player[2];
         player[0] = p1;
         player[1] = p2;
         POW = new int[2];
-        moves = new Move[]{ new GiveUp(), new GiveUp()};
+        moves = new Move[]{ new Empty(), new Empty()};
         prev = new Map(boardSize);
         curr = new Map(boardSize);
     }
 
-    private Pair<Integer, Integer> getResults(){
+    /**
+     * Computes game score
+     * @return - (BlackScore, WhiteScore)
+     */
+    private Pair<Integer, Integer> getScore(){
         Pair<Integer, Integer> areaRes = curr.getAreaPoints();
         return new Pair<>(areaRes.getValue0() + POW[0], areaRes.getValue1() + POW[1]);
     }
 
+    /**
+     * Performed move
+     * @param move - move to preform
+     * @throws IllegalMoveException - in case if move was invalid
+     * @throws GiveUpException - in case if move was instance of GiveUp
+     */
     private void makeMove(Move move) throws IllegalMoveException, GiveUpException {
         Map safeCopy = curr.clone();
         if (move instanceof PutStone) {
@@ -42,17 +62,21 @@ public class Game implements Runnable {
         moves[turn.getIndex()] = move;
     }
 
+    /**
+     * Main game loop.
+     * Responsible of gating moves from players and giving them final score
+     */
     @Override
     public void run() {
         try {
-            while (!(moves[0] instanceof Pass) && !(moves[1] instanceof Pass)) {
+            while (!(moves[0] instanceof Pass) && !(moves[1] instanceof Pass)) { //Till two player won't pass
                 IllegalMoveException exception = null;
                 try {
                     makeMove(player[turn.getIndex()].getMove(moves[turn.getOpposite().getIndex()], curr));
                 } catch (IllegalMoveException ex) {
                     exception = ex;
                 }
-                while (exception != null) {
+                while (exception != null) { //Till wont get invalid move
                     try {
                         makeMove(player[turn.getIndex()].wrongMove(exception));
                     } catch (IllegalMoveException ex) {
@@ -77,7 +101,7 @@ public class Game implements Runnable {
                 player[1].endGame("GIVEUP",0,999);
             }
         }
-        Pair<Integer, Integer> res = getResults();
+        Pair<Integer, Integer> res = getScore();
         player[0].endGame("PASS", res.getValue0(), res.getValue1());
         player[1].endGame("PASS", res.getValue1(), res.getValue0());
     }

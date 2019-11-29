@@ -1,5 +1,8 @@
 package Server;
 
+/**
+ * Enum representing color of players
+ */
 public enum Color {
     White(1),
     Black(0);
