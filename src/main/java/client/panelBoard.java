@@ -26,27 +26,26 @@ public class panelBoard extends JPanel
         this.boardSize=boardSize;
         this.myCLient=myClient;
         places = new Point[boardSize][boardSize];
-        stonePositions=new char[boardSize];
         if(boardSize==9)
         {
-            boardImage = Toolkit.getDefaultToolkit().getImage(getClass().getResource("9x9.png"));
+            boardImage = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/9x9.png"));
             borderPixel=95;
             pixelSize=700;
         }
         if(boardSize==13)
         {
-            boardImage = Toolkit.getDefaultToolkit().getImage(getClass().getResource("13x13.png"));
+            boardImage = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/13x13.png"));
             borderPixel=60;
             pixelSize=767;
         }
         if(boardSize==19)
         {
-            boardImage = Toolkit.getDefaultToolkit().getImage(getClass().getResource("19x19.png"));
+            boardImage = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/19x19.png"));
             borderPixel=80;
             pixelSize=1000;
         }
-        blackPawnImage=Toolkit.getDefaultToolkit().getImage(getClass().getResource("blackpawn.png"));
-        whitePawnImage=Toolkit.getDefaultToolkit().getImage(getClass().getResource("whitepawn.png"));
+        blackPawnImage=Toolkit.getDefaultToolkit().getImage(getClass().getResource("/blackpawn.png"));
+        whitePawnImage=Toolkit.getDefaultToolkit().getImage(getClass().getResource("/whitepawn.png"));
         addMouseListener(new myMouseAdapter());
     }
     @Override
@@ -65,7 +64,8 @@ public class panelBoard extends JPanel
         if(point!=null)
             g.drawImage(blackPawnImage, point.x, point.y,(int) (this.getHeight()/boardSize/1.30),
                         (int) (this.getHeight()/boardSize/1.30), this);
-        paintStones(g);
+        if(stonePositions!=null)
+            paintStones(g);
     }
 
     private void paintStones(Graphics g)
