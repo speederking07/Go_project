@@ -8,22 +8,22 @@ public class client {
     PrintWriter outMessage;
     BufferedReader inMessage;
     String message;
-    client goClient;
+    static client goClient;
     panelAction myPanelAction;
     panelBoard myPanelBoard;
     playGo frame;
-    
-    private client() {
+
+    private client(panelBoard myPanelBoard, panelAction myPanelAction, playGo frame) {
+        this.myPanelAction=myPanelAction;
+        this.myPanelBoard=myPanelBoard;
+        this.frame=frame;
         listenSocket();
     }
 
-    public client getInstance(panelBoard myPanelBoard, panelAction myPanelAction, playGo frame) {
+    public static client getInstance(panelBoard myPanelBoard, panelAction myPanelAction, playGo frame) {
         if (goClient == null)
         {
-            this.myPanelAction=myPanelAction;
-            this.myPanelBoard=myPanelBoard;
-            this.frame=frame;
-            return new client();
+            return new client(myPanelBoard, myPanelAction, frame);
         }
         else
             return null;

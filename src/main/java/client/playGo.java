@@ -21,7 +21,7 @@ public class playGo extends JFrame
         add(myPanelBoard, BorderLayout.CENTER);
         add(myPanelAction, BorderLayout.LINE_END);
 
-        goClient.getInstance(myPanelBoard, myPanelAction, this);
+        goClient = client.getInstance(myPanelBoard, myPanelAction, this);
         goClient.sendToServer(opponent + "!" + boardSize);
         goClient.sendToServer("WAITING");
 

@@ -29,24 +29,24 @@ public class panelBoard extends JPanel
         stonePositions=new char[boardSize];
         if(boardSize==9)
         {
-            boardImage = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/9x9.png"));
+            boardImage = Toolkit.getDefaultToolkit().getImage(getClass().getResource("9x9.png"));
             borderPixel=95;
             pixelSize=700;
         }
         if(boardSize==13)
         {
-            boardImage = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/13x13.png"));
+            boardImage = Toolkit.getDefaultToolkit().getImage(getClass().getResource("13x13.png"));
             borderPixel=60;
             pixelSize=767;
         }
         if(boardSize==19)
         {
-            boardImage = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/19x19.png"));
+            boardImage = Toolkit.getDefaultToolkit().getImage(getClass().getResource("19x19.png"));
             borderPixel=80;
             pixelSize=1000;
         }
-        blackPawnImage=Toolkit.getDefaultToolkit().getImage(getClass().getResource("/blackpawn.png"));
-        whitePawnImage=Toolkit.getDefaultToolkit().getImage(getClass().getResource("/whitepawn.png"));
+        blackPawnImage=Toolkit.getDefaultToolkit().getImage(getClass().getResource("blackpawn.png"));
+        whitePawnImage=Toolkit.getDefaultToolkit().getImage(getClass().getResource("whitepawn.png"));
         addMouseListener(new myMouseAdapter());
     }
     @Override

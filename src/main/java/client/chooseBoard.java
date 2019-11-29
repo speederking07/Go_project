@@ -46,7 +46,7 @@ public class chooseBoard extends JFrame implements ActionListener
         chooseBoardJLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
         choosePlayerJLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
         statusJLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
-        statusInfoJLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
+        statusInfoJLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
 
         JToggleButton9x9.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
         JToggleButton13x13.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
@@ -136,6 +136,8 @@ public class chooseBoard extends JFrame implements ActionListener
             if(sizeSelected && playerSelected)
             {
                 statusInfoJLabel.setText("Laczenie z serwerem");
+                this.validate();
+                this.repaint();
                 new playGo(boardSize, opponent);
             }
             if(!sizeSelected)
