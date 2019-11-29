@@ -44,7 +44,7 @@ public class panelAction extends JPanel implements ActionListener
         surrenderJButton.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
 
         setBackground(new Color(129, 215, 219));
-        setLayout(new GridLayout(7,1));
+        setLayout(new GridLayout(8,1));
         add(whichColorJLabel);
         add(whichColorInfoJLabel);
         add(actionInfoJLabel);
