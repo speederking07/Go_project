@@ -95,8 +95,11 @@ public class Game implements Runnable {
             return;
         }catch (GiveUpException ex){
             if (turn == Color.Black){
-                player[0].endGame("GIVEUP",0,999);
-                player[1].endGame("GIVEUP",999,0);
+                Pair<Integer, Integer> res = getScore();
+                player[0].endGame("GIVEUP", res.getValue0(), res.getValue1());
+                player[1].endGame("GIVEUP", res.getValue1(), res.getValue0());
+                //player[0].endGame("GIVEUP",0,999);
+                //player[1].endGame("GIVEUP",999,0);
             }
             else{
                 player[0].endGame("GIVEUP",999,0);
