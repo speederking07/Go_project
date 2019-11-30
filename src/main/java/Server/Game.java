@@ -14,7 +14,7 @@ public class Game implements Runnable {
     private Color turn = Color.Black;
     private Player[] player;
     private Move[] moves;
-    private Map prev, curr;
+    private Map prev, curr, safeCopy;
     private int[] POW; //Taken enemy stones
 
     /**
@@ -49,7 +49,7 @@ public class Game implements Runnable {
      * @throws GiveUpException - in case if move was instance of GiveUp
      */
     private void makeMove(Move move) throws IllegalMoveException, GiveUpException {
-        Map safeCopy = curr.clone();
+        safeCopy = curr.clone();
         if (move instanceof PutStone) {
             PutStone p = (PutStone) move;
             int pow = curr.putStone(p.x, p.y, turn);
@@ -69,7 +69,7 @@ public class Game implements Runnable {
     @Override
     public void run() {
         try {
-            while (!(moves[0] instanceof Pass) && !(moves[1] instanceof Pass)) { //Till two player won't pass
+            while (!(moves[0] instanceof Pass) || !(moves[1] instanceof Pass)) { //Till two player won't pass
                 IllegalMoveException exception = null;
                 try {
                     makeMove(player[turn.getIndex()].getMove(moves[turn.getOpposite().getIndex()], curr));
@@ -78,7 +78,9 @@ public class Game implements Runnable {
                 }
                 while (exception != null) { //Till wont get invalid move
                     try {
+                        curr = safeCopy;
                         makeMove(player[turn.getIndex()].wrongMove(exception));
+                        exception = null;
                     } catch (IllegalMoveException ex) {
                         exception = ex;
                     }

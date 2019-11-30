@@ -184,7 +184,7 @@ public class Map implements Cloneable {
             for (int j = 1; j <= size; j++) {
                 if (map[i][j] == curr) {
                     for (Direction d : Direction.directions()) {
-                        if (map[i + d.getX()][j + d.getY()] == 0) return true;
+                        if (map[i + d.getX()][j + d.getY()] % 3 == 0 && map[i + d.getX()][j + d.getY()] != 3) return true;
                     }
                 }
             }
@@ -237,13 +237,15 @@ public class Map implements Cloneable {
         x++;
         y++;
         int points = 0;
-        if (x < 1 || x >= size || y < 1 || y >= size) throw new IllegalPositionException();
+        if (x < 1 || x > size || y < 1 || y > size) throw new IllegalPositionException();
         if (map[x][y] != 0) throw new IllegalPositionException();
         boolean suicide = true;
         if (color == Color.White) {
             map[x][y] = freeW;
             for (Direction d : Direction.directions()) {
-                if (map[x + d.getX()][y + d.getY()] == 0) suicide = false;
+                if (map[x + d.getX()][y + d.getY()] % 3 == 0  && map[x + d.getX()][y + d.getY()] != 3
+                        || map[x + d.getX()][y + d.getY()] % 3 == 2 && hasBreaths(x + d.getX(), y + d.getY()))
+                    suicide = false;
                 else if (map[x + d.getX()][y + d.getY()] % 3 == 1 && !hasBreaths(x + d.getX(), y + d.getY())) {
                     points += replace(map[x + d.getX()][y + d.getY()], 0);
                     suicide = false;
@@ -252,8 +254,10 @@ public class Map implements Cloneable {
         } else {
             map[x][y] = freeB;
             for (Direction d : Direction.directions()) {
-                if (map[x + d.getX()][y + d.getY()] == 0) suicide = false;
-                else if (map[x + d.getX()][y + d.getY()] % 3 == 2 && !hasBreaths(x + d.getX(), y + d.getY())) {
+                if (map[x + d.getX()][y + d.getY()] % 3 == 0 && map[x + d.getX()][y + d.getY()] != 3
+                    || map[x + d.getX()][y + d.getY()] % 3 == 1 && hasBreaths(x + d.getX(), y + d.getY()))
+                    suicide = false;
+                else if ((map[x + d.getX()][y + d.getY()] % 3 == 2) && (!hasBreaths(x + d.getX(), y + d.getY()))) {
                     points += replace(map[x + d.getX()][y + d.getY()], 0);
                     suicide = false;
                 }
