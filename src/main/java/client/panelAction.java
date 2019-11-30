@@ -19,10 +19,8 @@ public class panelAction extends JPanel implements ActionListener
     JButton passJButton;
     JButton surrenderJButton;
     client myClient;
-    public panelAction(client myClient)
+    public panelAction()
     {
-        this.myClient=myClient;
-
         whichColorJLabel = new JLabel("Twoj kolor to: ", JLabel.CENTER);
         whichColorInfoJLabel = new JLabel("", JLabel.CENTER);
         actionInfoJLabel = new JLabel("Ostatni ruch przeciwnika",JLabel.CENTER);
@@ -42,6 +40,9 @@ public class panelAction extends JPanel implements ActionListener
 
         passJButton.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
         surrenderJButton.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
+
+        passJButton.addActionListener(this);
+        surrenderJButton.addActionListener(this);
 
         setBackground(new Color(129, 215, 219));
         setLayout(new GridLayout(8,1));
@@ -76,5 +77,9 @@ public class panelAction extends JPanel implements ActionListener
     public void setOpponentMove(String move)
     {
         opponentMoveJLabel.setText(move);
+    }
+    public void setClient(client myClient)
+    {
+        this.myClient=myClient;
     }
 }

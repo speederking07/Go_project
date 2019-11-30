@@ -29,14 +29,17 @@ public class endGame extends JDialog implements ActionListener
         yourScoreJLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
         opponentScoreJLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
         okJButton.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
+        okJButton.addActionListener(this);
 
         setLayout(new GridLayout(4,1));
-        setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
-
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+        
         add(reasonJLabel);
         add(yourScoreJLabel);
         add(opponentScoreJLabel);
         add(okJButton);
+        pack();
         setVisible(true);
     }
     public void actionPerformed(ActionEvent e)

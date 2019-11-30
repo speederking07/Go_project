@@ -33,7 +33,7 @@ public class client {
         while(true)
         {
             try {
-                socket = new Socket("localhost", 4444);
+                socket = new Socket("localhost", 4442);
                 outMessage = new PrintWriter(socket.getOutputStream(), true);
                 inMessage = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 break;
@@ -51,15 +51,16 @@ public class client {
         recieveFromServer();
     }
 
-    private void recieveFromServer() {
+    public void recieveFromServer() {
         try {
             message=inMessage.readLine();
+            System.out.println(message);
         } catch (IOException e) {
             System.out.println("Read failed"); System.exit(1);
         }
-        if(message=="WHITE")
+        if(message.equals("WHITE"))
             myPanelAction.setColor("Bialy");
-        if(message=="BLACK")
+        if(message.equals("BLACK"))
         {
             myPanelAction.setColor("Czarny");
             myPanelAction.setWhichTurn("Twoj");
@@ -68,13 +69,14 @@ public class client {
         if(message.contains("!"))
         {
             String[] stringParts = message.split("!");
-            if(stringParts[0]=="WRONGMOVE")
+            if(stringParts[0].equals("WRONGMOVE"))
             {
                 myPanelAction.setWhichTurn("Twoj");
                 myPanelBoard.wrongMove(stringParts);
             }
-            else if(stringParts[0]=="ENDGAME")
+            else if(stringParts[0].equals("ENDGAME"))
             {
+                System.out.println("x");
                 new endGame(frame, stringParts[1], stringParts[2], stringParts[3]);
             }
             else

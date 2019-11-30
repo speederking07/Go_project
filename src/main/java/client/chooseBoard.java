@@ -136,8 +136,7 @@ public class chooseBoard extends JFrame implements ActionListener
             if(sizeSelected && playerSelected)
             {
                 statusInfoJLabel.setText("Laczenie z serwerem");
-                this.validate();
-                this.repaint();
+                setVisible(false);
                 new playGo(boardSize, opponent);
             }
             if(!sizeSelected)

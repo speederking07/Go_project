@@ -21,10 +21,9 @@ public class panelBoard extends JPanel
     int pixelSize;
     client myCLient;
     private char[] stonePositions;
-    public panelBoard(int boardSize, client myClient)
+    public panelBoard(int boardSize)
     {
         this.boardSize=boardSize;
-        this.myCLient=myClient;
         places = new Point[boardSize][boardSize];
         if(boardSize==9)
         {
@@ -52,7 +51,6 @@ public class panelBoard extends JPanel
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
-        //int borderWidth=this.getWidth()*52/693;
         int borderHeight=this.getHeight()*borderPixel/pixelSize;
         int borderSpace=(this.getHeight()-2*borderHeight)/(boardSize-1);
         for(int i=0; i<boardSize; i++)
@@ -61,9 +59,6 @@ public class panelBoard extends JPanel
                 places[i][j]= new Point(borderHeight+i*borderSpace,borderHeight+j*borderSpace);
             }
         g.drawImage(boardImage, 0, 0, this.getHeight(), this.getHeight(), this);
-        if(point!=null)
-            g.drawImage(blackPawnImage, point.x, point.y,(int) (this.getHeight()/boardSize/1.30),
-                        (int) (this.getHeight()/boardSize/1.30), this);
         if(stonePositions!=null)
             paintStones(g);
     }
@@ -74,10 +69,10 @@ public class panelBoard extends JPanel
         for(int i=0; i<boardSize; i++)
             for(int j=0; j<boardSize; j++)
             {
-                if(stonePositions[stoneNumber]=='C')
+                int radius = (int) (panelBoard.this.getHeight()/boardSize/1.30/2); 
+                point=new Point(places[i][j].x-radius,places[i][j].y-radius);
+                if(stonePositions[stoneNumber]=='B')
                 {
-                    int radius = (int) (panelBoard.this.getHeight()/boardSize/1.30/2); 
-                    point=new Point(nearestPoint.x-radius,nearestPoint.y-radius);
                     g.drawImage(blackPawnImage, point.x, point.y,(int) (this.getHeight()/boardSize/1.30),
                                 (int) (this.getHeight()/boardSize/1.30), this);
                 }
@@ -90,6 +85,11 @@ public class panelBoard extends JPanel
             }
     }
 
+    public void setClient(client myClient)
+    {
+        this.myCLient=myClient;
+    }
+
     private class myMouseAdapter extends MouseAdapter
     {
         @Override
@@ -99,23 +99,29 @@ public class panelBoard extends JPanel
             {
                 //90 700
                 //60 767
+                int x=0,y=0;
                 nearestPoint=places[0][0];
                 for(int i=0; i<boardSize; i++)
                     for(int j=0; j<boardSize; j++)
                     {
                         if(places[i][j].distance(e.getPoint())<nearestPoint.distance(e.getPoint()))
+                        {
                             nearestPoint=places[i][j];
+                            x=i;
+                            y=j;
+                        }
                     }
                 //int radius = (int) (panelBoard.this.getHeight()/boardSize/1.30/2); 
                 //point=new Point(nearestPoint.x-radius,nearestPoint.y-radius);
                 //repaint();
-                myCLient.sendToServer("PUTSTONE " + nearestPoint.x + " " + nearestPoint.y);
+                myCLient.sendToServer("PUTSTONE " + x + " " + y);
             }
         }
     }
     public void setStonePositions(char[] stonePositions)
     {
         this.stonePositions=stonePositions;
+        repaint();
     }
 
     public void wrongMove(String[] stringParts)
