@@ -35,6 +35,11 @@ public class Bot implements Player {
     }
 
     @Override
+    public void goodMove(final Move prevMove, final Map map){
+
+    }
+
+    @Override
     public void startGame(Color c) {
         color = c;
     }

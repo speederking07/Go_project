@@ -18,6 +18,13 @@ public interface Player {
     Move getMove(final Move prevMove, final Map map) throws ConnectionTroubleException;
 
     /**
+     * Confirms good move
+     * @param prevMove - move of opponent
+     * @param map - map of current game state
+     */
+    void goodMove(final Move prevMove, final Map map);
+
+    /**
      * Call in case of invalid move was get form getMove
      * @param ex - type of illegal move
      * @return - new move to preform

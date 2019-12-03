@@ -85,6 +85,7 @@ public class Game implements Runnable {
                         exception = ex;
                     }
                 }
+                player[turn.getIndex()].goodMove(moves[turn.getOpposite().getIndex()], curr);
                 turn = turn.getOpposite();
             }
         }catch (ConnectionTroubleException ex)
