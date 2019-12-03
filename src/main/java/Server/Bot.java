@@ -12,7 +12,7 @@ public class Bot implements Player {
     Map currentMap;
     int size;
 
-    public Bot(int s){
+    public Bot(int s) {
         size = s;
     }
 
@@ -35,7 +35,7 @@ public class Bot implements Player {
     }
 
     @Override
-    public void goodMove(final Move prevMove, final Map map){
+    public void goodMove(final Move prevMove, final Map map) {
 
     }
 

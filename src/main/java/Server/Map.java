@@ -29,6 +29,7 @@ public class Map implements Cloneable {
 
     /**
      * Constructor of empty map
+     *
      * @param size - board size
      */
     public Map(int size) {
@@ -47,6 +48,7 @@ public class Map implements Cloneable {
 
     /**
      * Constructor of map by string representation
+     *
      * @param size - size of board
      * @param data - string representation of board
      * @throws IllegalArgumentException - in case of wrong string
@@ -65,10 +67,10 @@ public class Map implements Cloneable {
                         map[i][j] = 0;
                         break;
                     case WHITE_CHAR:
-                        map[i][j] = 3 * (i*size + j) + 2;
+                        map[i][j] = 3 * (i * size + j) + 2;
                         break;
                     case BLACK_CHAR:
-                        map[i][j] = 3 * (i*size + j) + 1;
+                        map[i][j] = 3 * (i * size + j) + 1;
                         break;
                     default:
                         throw new IllegalArgumentException("Wrong char");
@@ -91,8 +93,9 @@ public class Map implements Cloneable {
 
     /**
      * Replace of fields with old value to n value
+     *
      * @param old - value to be replaced
-     * @param n - value to replaced with
+     * @param n   - value to replaced with
      * @return - number to changes
      */
     private int replace(int old, int n) {
@@ -110,28 +113,29 @@ public class Map implements Cloneable {
 
     /**
      * Function to replace specific area(group of fields with the same value) with new values
-     * @param x - x position
-     * @param y - y position
+     *
+     * @param x   - x position
+     * @param y   - y position
      * @param old - value to be replaced
-     * @param n - value to replaced with
+     * @param n   - value to replaced with
      * @return - number to changes
      */
     private int replaceArea(int x, int y, int old, int n) {
-        if(map[x][y] != old) return 0;
+        if (map[x][y] != old) return 0;
         map[x][y] = n;
         int counter = 1;
-        for(Direction dir : Direction.directions())
-        {
-            counter += replaceArea(x+dir.getX(), y+dir.getY(), old, n);
+        for (Direction dir : Direction.directions()) {
+            counter += replaceArea(x + dir.getX(), y + dir.getY(), old, n);
         }
         return counter;
     }
 
     /**
      * Computes size of taken area by both players
+     *
      * @return - (BlackArea, WhiteArea)
      */
-    public Pair<Integer, Integer> getAreaPoints(){
+    public Pair<Integer, Integer> getAreaPoints() {
         replace(6, 0);
         replace(9, 0);
         replace(12, 0);
@@ -139,13 +143,12 @@ public class Map implements Cloneable {
         int whiteArea = 0;
         for (int i = 1; i <= size; i++) {
             for (int j = 1; j <= size; j++) {
-                if(map[i][j] % 3 == 1) {
+                if (map[i][j] % 3 == 1) {
                     for (Direction dir : Direction.directions()) {
                         blackArea += replaceArea(i + dir.getX(), j + dir.getY(), 0, 6);
                         whiteArea -= replaceArea(i + dir.getX(), j + dir.getY(), 9, 12);
                     }
-                }
-                else if(map[i][j] % 3 == 2) {
+                } else if (map[i][j] % 3 == 2) {
                     for (Direction dir : Direction.directions()) {
                         whiteArea += replaceArea(i + dir.getX(), j + dir.getY(), 0, 9);
                         blackArea -= replaceArea(i + dir.getX(), j + dir.getY(), 6, 12);
@@ -174,6 +177,7 @@ public class Map implements Cloneable {
 
     /**
      * Checks if chain has breaths
+     *
      * @param x - chain x position
      * @param y - chain y position
      * @return - true if has breaths
@@ -184,7 +188,8 @@ public class Map implements Cloneable {
             for (int j = 1; j <= size; j++) {
                 if (map[i][j] == curr) {
                     for (Direction d : Direction.directions()) {
-                        if (map[i + d.getX()][j + d.getY()] % 3 == 0 && map[i + d.getX()][j + d.getY()] != 3) return true;
+                        if (map[i + d.getX()][j + d.getY()] % 3 == 0 && map[i + d.getX()][j + d.getY()] != 3)
+                            return true;
                     }
                 }
             }
@@ -207,7 +212,7 @@ public class Map implements Cloneable {
                     if (map[i][j] % 3 == map[i][j + 1] % 3) {
                         replace(map[i][j + 1], map[i][j]);
                     }
-                    if(map[i][j] % 3 == 1) freeB = Math.max(freeB, map[i][j]);
+                    if (map[i][j] % 3 == 1) freeB = Math.max(freeB, map[i][j]);
                     else freeW = Math.max(freeW, map[i][j]);
                 }
             }
@@ -218,17 +223,19 @@ public class Map implements Cloneable {
 
     /**
      * Deep cLone map
+     *
      * @return - cloned map
      */
-    public Map clone(){
+    public Map clone() {
         //TODO: Performence to improve
         return new Map(size, toString());
     }
 
     /**
      * Function to modify map by one stone
-     * @param x - x portion to put stone
-     * @param y - y portion to put stone
+     *
+     * @param x     - x portion to put stone
+     * @param y     - y portion to put stone
      * @param color - color of stone
      * @return - number of "killed" enemy stones
      * @throws IllegalMoveException - if move was invalid
@@ -243,7 +250,7 @@ public class Map implements Cloneable {
         if (color == Color.White) {
             map[x][y] = freeW;
             for (Direction d : Direction.directions()) {
-                if (map[x + d.getX()][y + d.getY()] % 3 == 0  && map[x + d.getX()][y + d.getY()] != 3
+                if (map[x + d.getX()][y + d.getY()] % 3 == 0 && map[x + d.getX()][y + d.getY()] != 3
                         || map[x + d.getX()][y + d.getY()] % 3 == 2 && hasBreaths(x + d.getX(), y + d.getY()))
                     suicide = false;
                 else if (map[x + d.getX()][y + d.getY()] % 3 == 1 && !hasBreaths(x + d.getX(), y + d.getY())) {
@@ -255,7 +262,7 @@ public class Map implements Cloneable {
             map[x][y] = freeB;
             for (Direction d : Direction.directions()) {
                 if (map[x + d.getX()][y + d.getY()] % 3 == 0 && map[x + d.getX()][y + d.getY()] != 3
-                    || map[x + d.getX()][y + d.getY()] % 3 == 1 && hasBreaths(x + d.getX(), y + d.getY()))
+                        || map[x + d.getX()][y + d.getY()] % 3 == 1 && hasBreaths(x + d.getX(), y + d.getY()))
                     suicide = false;
                 else if ((map[x + d.getX()][y + d.getY()] % 3 == 2) && (!hasBreaths(x + d.getX(), y + d.getY()))) {
                     points += replace(map[x + d.getX()][y + d.getY()], 0);

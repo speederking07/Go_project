@@ -11,7 +11,7 @@ import java.net.Socket;
 /**
  * Class responsible to handling single connection to client
  */
-public class Connection implements Runnable{
+public class Connection implements Runnable {
     private static final String PING_STRING = "PING";
     private BufferedReader in;
     private PrintWriter out;
@@ -19,6 +19,7 @@ public class Connection implements Runnable{
 
     /**
      * Constructor of connection
+     *
      * @param s - socket used to connect
      * @throws IOException - in case to connection troubles
      */
@@ -32,16 +33,17 @@ public class Connection implements Runnable{
 
     /**
      * Sends and receives message from client
+     *
      * @param msg - message to sent
      * @return - received message
      * @throws ConnectionTroubleException - in case to connection troubles
      */
     final public String communicate(String msg) throws ConnectionTroubleException {
         out.println(msg);
-        System.out.println("Sent: "+msg);
+        System.out.println("Sent: " + msg);
         try {
             String s = in.readLine();
-            System.out.println("Received: "+s);
+            System.out.println("Received: " + s);
             return s;
 
         } catch (IOException e) {
@@ -52,15 +54,17 @@ public class Connection implements Runnable{
 
     /**
      * Sends amessage from client
+     *
      * @param msg - message to sent
      */
     final public void say(String msg) {
-        System.out.println("Sent: "+msg);
+        System.out.println("Sent: " + msg);
         out.println(msg);
     }
 
     /**
      * Used to ping client
+     *
      * @return - true if client is connected
      */
     final public boolean isAlive() {
@@ -81,17 +85,15 @@ public class Connection implements Runnable{
         try {
             String ans = communicate("HEY");
             String[] data = ans.split("!");
-            if(data.length != 2) throw new IllegalArgumentException();
-            if (data[0].equals("HUMAN")){
+            if (data.length != 2) throw new IllegalArgumentException();
+            if (data[0].equals("HUMAN")) {
                 Queue.getInstance().makeGameWithPlayer(new HumanPlayer(this), Integer.parseInt(data[1]));
-            }
-            else if (data[0].equals("BOT")){
+            } else if (data[0].equals("BOT")) {
                 Queue.getInstance().makeGameWithBot(new HumanPlayer(this), Integer.parseInt(data[1]));
-            }
-            else throw new IllegalArgumentException();
-        }catch (ConnectionTroubleException ex){
+            } else throw new IllegalArgumentException();
+        } catch (ConnectionTroubleException ex) {
             System.out.println("conection truble ");
-        }catch (IllegalArgumentException ex){
+        } catch (IllegalArgumentException ex) {
             System.out.println("Wrong data when selecting game");
         }
     }

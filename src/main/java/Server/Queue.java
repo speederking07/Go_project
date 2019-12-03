@@ -35,8 +35,9 @@ final public class Queue {
 
     /**
      * Creates games and starts thread of specific game
-     * @param p1 - black player
-     * @param p2 - white player
+     *
+     * @param p1   - black player
+     * @param p2   - white player
      * @param size - board size
      */
     private void createGame(Player p1, Player p2, int size) {
@@ -54,7 +55,8 @@ final public class Queue {
 
     /**
      * Creates game with another player or puts hit to the queue
-     * @param hp - player
+     *
+     * @param hp   - player
      * @param size - size of board
      */
     public synchronized void makeGameWithPlayer(HumanPlayer hp, int size) {
@@ -75,7 +77,8 @@ final public class Queue {
 
     /**
      * Creates game with bot
-     * @param hp - player
+     *
+     * @param hp   - player
      * @param size - size of board
      */
     public void makeGameWithBot(HumanPlayer hp, int size) {

@@ -28,12 +28,13 @@ public class HumanPlayer implements Player {
 
     /**
      * Confirms good move
+     *
      * @param prevMove - move of opponent
-     * @param map - map of current game state
+     * @param map      - map of current game state
      */
     @Override
-    public void goodMove(final Move prevMove, final Map map){
-        connection.say(prevMove.toString()+"!"+map.toString());
+    public void goodMove(final Move prevMove, final Map map) {
+        connection.say(prevMove.toString() + "!" + map.toString());
     }
 
     /**

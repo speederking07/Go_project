@@ -10,8 +10,9 @@ import Server.Moves.Move;
 public interface Player {
     /**
      * Get move form player instance
+     *
      * @param prevMove - move of opponent
-     * @param map - map of current game state
+     * @param map      - map of current game state
      * @return - move to preform
      * @throws ConnectionTroubleException - connection problems
      */
@@ -19,13 +20,15 @@ public interface Player {
 
     /**
      * Confirms good move
+     *
      * @param prevMove - move of opponent
-     * @param map - map of current game state
+     * @param map      - map of current game state
      */
     void goodMove(final Move prevMove, final Map map);
 
     /**
      * Call in case of invalid move was get form getMove
+     *
      * @param ex - type of illegal move
      * @return - new move to preform
      * @throws ConnectionTroubleException - connection problems
@@ -34,7 +37,8 @@ public interface Player {
 
     /**
      * Call at the end of game
-     * @param reason - reason of ended game
+     *
+     * @param reason      - reason of ended game
      * @param yoursPoints - yours points
      * @param otherPoints - points of opponent
      */
@@ -42,6 +46,7 @@ public interface Player {
 
     /**
      * Initialization of game
+     *
      * @param c - color assigned to this player
      * @throws ConnectionTroubleException - connection problems
      */
