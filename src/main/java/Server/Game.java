@@ -55,7 +55,7 @@ public class Game implements Runnable {
         safeCopy = curr.clone();
         if (move instanceof PutStone) {
             PutStone p = (PutStone) move;
-            int pow = curr.putStone(p.x, p.y, turn);
+            int pow = curr.putStone(p.getX(), p.getY(), turn);
             if (!(moves[turn.getOpposite().getIndex()] instanceof Pass) &&
                     prev.toString().equals(curr.toString())) throw new KoException();
             prev = safeCopy;

@@ -1,7 +1,7 @@
 package Server.Moves;
 
 public class PutStone implements Move {
-    public int x, y;
+    private int x, y;
 
     public PutStone(int x, int y){
         this.x = x;
@@ -13,5 +13,13 @@ public class PutStone implements Move {
         return "PUTSTONE" +
                 " " + x +
                 " " + y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }
