@@ -74,7 +74,7 @@ public class Game implements Runnable {
             while (!(moves[0] instanceof Pass) || !(moves[1] instanceof Pass)) { //Till two player won't pass
                 IllegalMoveException exception = null;
                 try {
-                    makeMove(player[turn.getIndex()].getMove(moves[turn.getOpposite().getIndex()], curr));
+                    makeMove(player[turn.getIndex()].getMove(moves[turn.getOpposite().getIndex()], curr.clone()));
                 } catch (IllegalMoveException ex) {
                     exception = ex;
                 }
@@ -87,7 +87,7 @@ public class Game implements Runnable {
                         exception = ex;
                     }
                 }
-                player[turn.getIndex()].goodMove(moves[turn.getOpposite().getIndex()], curr);
+                player[turn.getIndex()].goodMove(moves[turn.getOpposite().getIndex()], curr.clone());
                 turn = turn.getOpposite();
             }
         } catch (ConnectionTroubleException ex) {

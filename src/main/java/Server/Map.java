@@ -4,6 +4,7 @@ import Server.Exceprions.IllegalMoveException;
 import Server.Exceprions.IllegalPositionException;
 import Server.Exceprions.SuicideException;
 import org.javatuples.Pair;
+import org.javatuples.Triplet;
 
 import java.util.Arrays;
 
@@ -44,6 +45,20 @@ public class Map implements Cloneable {
         Arrays.fill(map[size + 1], 3);
         freeW = 2;
         freeB = 1;
+    }
+
+    /**
+     * Copy constructor
+     *
+     * @param m - map to copy
+     */
+    public Map(Map m) {
+        size = m.size;
+        freeW = m.freeW;
+        freeB = m.freeB;
+        map = new int[size + 2][size + 2];
+        for (int i = 0; i < size + 2; i++)
+            System.arraycopy(m.map[i], 0, map[i], 0, size + 2);
     }
 
     /**
@@ -198,6 +213,35 @@ public class Map implements Cloneable {
     }
 
     /**
+     * Gets information about neighborhood of position
+     *
+     * @param x - position
+     * @param y - position
+     * @param c - color of stone
+     * @return - (friendly, opponent, empty)
+     */
+    Triplet<Integer, Integer, Integer> neighbors(int x, int y, Color c) {
+        x++;
+        y++;
+        int friendly = 0, opponent = 0, empty = 0;
+        for (Direction d : Direction.directions()) {
+            int temp = map[x + d.getX()][y + d.getY()];
+            if (c == Color.Black) {
+                if (temp % 3 == 1) friendly++;
+                else if (temp % 3 == 2) opponent++;
+                else if (temp == 3);
+                else empty++;
+            } else {
+                if (temp % 3 == 2) friendly++;
+                else if (temp % 3 == 1) opponent++;
+                else if (temp == 3);
+                else empty++;
+            }
+        }
+        return new Triplet<>(friendly, opponent, empty);
+    }
+
+    /**
      * Connects stones into chains of the same id
      */
     public void refactor() {
@@ -227,8 +271,7 @@ public class Map implements Cloneable {
      * @return - cloned map
      */
     public Map clone() {
-        //TODO: Performence to improve
-        return new Map(size, toString());
+        return new Map(this);
     }
 
     /**
