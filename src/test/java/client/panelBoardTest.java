@@ -6,7 +6,7 @@ import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;

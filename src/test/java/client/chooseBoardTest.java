@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.awt.event.ActionEvent;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 public class chooseBoardTest
