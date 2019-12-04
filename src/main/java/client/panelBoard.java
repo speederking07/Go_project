@@ -111,10 +111,11 @@ public class panelBoard extends JPanel
                             y=j;
                         }
                     }
-                //int radius = (int) (panelBoard.this.getHeight()/boardSize/1.30/2); 
-                //point=new Point(nearestPoint.x-radius,nearestPoint.y-radius);
-                //repaint();
-                myCLient.sendToServer("PUTSTONE " + x + " " + y);
+                if(myCLient!=null)
+                {
+                    if(myCLient.sendToServer("PUTSTONE " + x + " " + y)==0)
+                        myCLient.recieveFromServer();
+                }
             }
         }
     }

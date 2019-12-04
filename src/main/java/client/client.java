@@ -33,7 +33,7 @@ public class client {
         while(true)
         {
             try {
-                socket = new Socket("localhost", 4442);
+                socket = new Socket("localhost", 4444);
                 outMessage = new PrintWriter(socket.getOutputStream(), true);
                 inMessage = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 break;
@@ -45,13 +45,13 @@ public class client {
         }
     }
 
-    public void sendToServer(String message) {
+    public int sendToServer(String message) {
         myPanelAction.setWhichTurn("Przeciwnika");
         outMessage.println(message);
-        recieveFromServer();
+        return recieveFromServer();
     }
 
-    public void recieveFromServer() {
+    public int recieveFromServer() {
         try {
             message=inMessage.readLine();
             System.out.println(message);
@@ -68,23 +68,25 @@ public class client {
         
         if(message.contains("!"))
         {
+            myPanelAction.setWhichTurn("Twoj");
             String[] stringParts = message.split("!");
             if(stringParts[0].equals("WRONGMOVE"))
             {
-                myPanelAction.setWhichTurn("Twoj");
                 myPanelBoard.wrongMove(stringParts);
+                System.out.println("x");
+                return 1;
+                
             }
             else if(stringParts[0].equals("ENDGAME"))
             {
-                System.out.println("x");
                 new endGame(frame, stringParts[1], stringParts[2], stringParts[3]);
             }
             else
             {
-                myPanelAction.setWhichTurn("Twoj");
                 myPanelAction.setOpponentMove(stringParts[0]);
                 myPanelBoard.setStonePositions(stringParts[1].toCharArray());
             }
         }
+        return 0;
     }
 }

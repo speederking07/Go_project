@@ -15,8 +15,8 @@ public class endGame extends JDialog implements ActionListener
     JLabel yourScoreJLabel;
     JLabel opponentScoreJLabel;
     JButton okJButton;
-    playGo frame;
-    public endGame(playGo frame, String reason, String yourScore, String opponentScore)
+    JFrame frame;
+    public endGame(JFrame frame, String reason, String yourScore, String opponentScore)
     {
         super(frame, "Koniec gry", true);
         this.frame=frame;
@@ -48,6 +48,7 @@ public class endGame extends JDialog implements ActionListener
         {
             frame.setVisible(false);
             frame.dispose();
+            System.exit(0);
         }
     }
 }

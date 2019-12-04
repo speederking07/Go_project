@@ -14,22 +14,22 @@ public class panelAction extends JPanel implements ActionListener
     JLabel opponentMoveJLabel;
     JLabel whichTurnJLabel;
     JLabel whichTurnInfoJLabel;
-    JLabel whichColorJLabel;
-    JLabel whichColorInfoJLabel;
+    JLabel whatColorJLabel;
+    JLabel whatColorInfoJLabel;
     JButton passJButton;
     JButton surrenderJButton;
     client myClient;
     public panelAction()
     {
-        whichColorJLabel = new JLabel("Twoj kolor to: ", JLabel.CENTER);
-        whichColorInfoJLabel = new JLabel("", JLabel.CENTER);
+        whatColorJLabel = new JLabel("Twoj kolor to: ", JLabel.CENTER);
+        whatColorInfoJLabel = new JLabel("", JLabel.CENTER);
         actionInfoJLabel = new JLabel("Ostatni ruch przeciwnika",JLabel.CENTER);
         opponentMoveJLabel = new JLabel("",JLabel.CENTER);
         whichTurnJLabel = new JLabel("Teraz ruch",JLabel.CENTER);
-        whichTurnInfoJLabel = new JLabel("",JLabel.CENTER);
+        whichTurnInfoJLabel = new JLabel("Przeciwnika",JLabel.CENTER);
 
-        whichColorJLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
-        whichColorInfoJLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
+        whatColorJLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
+        whatColorInfoJLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
         actionInfoJLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
         opponentMoveJLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
         whichTurnJLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
@@ -46,8 +46,8 @@ public class panelAction extends JPanel implements ActionListener
 
         setBackground(new Color(129, 215, 219));
         setLayout(new GridLayout(8,1));
-        add(whichColorJLabel);
-        add(whichColorInfoJLabel);
+        add(whatColorJLabel);
+        add(whatColorInfoJLabel);
         add(actionInfoJLabel);
         add(opponentMoveJLabel);
         add(whichTurnJLabel);
@@ -71,7 +71,7 @@ public class panelAction extends JPanel implements ActionListener
     }
     public void setColor(String color)
     {
-        whichColorInfoJLabel.setText(color);
+        whatColorInfoJLabel.setText(color);
     }
 
     public void setOpponentMove(String move)
