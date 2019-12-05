@@ -32,6 +32,7 @@ public class Game implements Runnable {
         moves = new Move[]{new Empty(), new Empty()};
         prev = new Map(boardSize);
         curr = new Map(boardSize);
+        p2.goodMove(new Empty(), curr);
     }
 
     /**
