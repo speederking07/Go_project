@@ -7,8 +7,7 @@ import Server.Exceprions.ConnectionTroubleException;
  */
 final public class Queue {
     private volatile static Queue instance;
-    private HumanPlayer waitFor9, waitFor13, waitFor19;
-    //private List<Thread> games;
+    private Player waitFor9, waitFor13, waitFor19;
 
     /**
      * Basic constructor of singleton
@@ -17,9 +16,7 @@ final public class Queue {
         waitFor9 = null;
         waitFor13 = null;
         waitFor19 = null;
-        //games = new ArrayList<Game>();
     }
-
 
     /**
      * @return - instance of Queue
@@ -50,7 +47,6 @@ final public class Queue {
         }
         Thread t = new Thread(new Game(p1, p2, size));
         t.start();
-        //games.add(new Game(p1,p2,size));
     }
 
     /**
@@ -59,7 +55,7 @@ final public class Queue {
      * @param hp   - player
      * @param size - size of board
      */
-    public synchronized void makeGameWithPlayer(HumanPlayer hp, int size) {
+    public synchronized void makeGameWithPlayer(Player hp, int size) {
         if (size == 9) {
             if (waitFor9 != null) {
                 createGame(waitFor9, hp, size);
@@ -81,7 +77,7 @@ final public class Queue {
      * @param hp   - player
      * @param size - size of board
      */
-    public void makeGameWithBot(HumanPlayer hp, int size) {
+    public void makeGameWithBot(Player hp, int size) {
         if (size == 9) {
             createGame(hp, new Bot(size), size);
         } else if (size == 13) {

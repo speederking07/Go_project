@@ -8,8 +8,8 @@ import java.util.ArrayList;
  * Class responsible of connections handling
  */
 class Server {
+    final static public int PORT = 4444;
     ServerSocket server;
-    ArrayList<Connection> connections;
 
     /**
      * Basic constructor of Server
@@ -17,7 +17,6 @@ class Server {
      * @param port - Port to use
      */
     Server(int port) {
-        connections = new ArrayList<>();
         try {
             server = new ServerSocket(port);
         } catch (IOException e) {
@@ -34,7 +33,8 @@ class Server {
      */
     void connect() {
         try {
-            connections.add(new Connection(server.accept()));
+            Connection connection = new TCPConnection(server.accept());
+            connection.initializeConnection();
         } catch (IOException e) {
             System.out.println("Accept failed: 4444");
             System.exit(-1);
@@ -47,6 +47,6 @@ class Server {
      * @param args
      */
     public static void main(String[] args) {
-        Server server = new Server(4444);
+        new Server(PORT);
     }
 }

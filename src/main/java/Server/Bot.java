@@ -2,15 +2,11 @@ package Server;
 
 import Server.Exceprions.IllegalMoveException;
 import Server.Exceprions.KoException;
-import Server.Moves.Move;
-import Server.Moves.Pass;
-import Server.Moves.PutStone;
-import org.javatuples.Pair;
+import Moves.Move;
+import Moves.Pass;
+import Moves.PutStone;
 import org.javatuples.Triplet;
 
-import java.util.Random;
-
-//TODO: Whole bot body
 public class Bot implements Player {
     Color color;
     int size;

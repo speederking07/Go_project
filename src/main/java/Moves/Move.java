@@ -1,4 +1,4 @@
-package Server.Moves;
+package Moves;
 
 public interface Move {
     /**
@@ -22,4 +22,10 @@ public interface Move {
             else throw new IllegalArgumentException("Wrong move");
         }
     }
+
+    /**
+     * Generates string to display
+     * @return - pretty string
+     */
+    public String pretty();
 }

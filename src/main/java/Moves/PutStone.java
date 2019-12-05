@@ -1,4 +1,4 @@
-package Server.Moves;
+package Moves;
 
 public class PutStone implements Move {
     private int x, y;
@@ -21,5 +21,9 @@ public class PutStone implements Move {
 
     public int getY() {
         return y;
+    }
+
+    public String pretty(){
+        return "Kamień na "+(char)(65 + x)+y;
     }
 }

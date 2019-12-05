@@ -2,7 +2,7 @@ package Server;
 
 import Server.Exceprions.ConnectionTroubleException;
 import Server.Exceprions.IllegalMoveException;
-import Server.Moves.Move;
+import Moves.Move;
 
 /**
  * Standard interface of player

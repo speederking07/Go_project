@@ -2,14 +2,14 @@ package Server;
 
 import Server.Exceprions.ConnectionTroubleException;
 import Server.Exceprions.IllegalMoveException;
-import Server.Moves.Move;
+import Moves.Move;
 
 /**
  * Object adapter of Connection to fit interface of Player
  */
-public class HumanPlayer implements Player {
-    private Connection connection;
-    HumanPlayer(Connection conn){
+public class TCPPlayer implements Player {
+    private TCPConnection connection;
+    TCPPlayer(TCPConnection conn){
         connection = conn;
     }
 

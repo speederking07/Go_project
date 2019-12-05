@@ -4,7 +4,7 @@ import Server.Exceprions.ConnectionTroubleException;
 import Server.Exceprions.GiveUpException;
 import Server.Exceprions.IllegalMoveException;
 import Server.Exceprions.KoException;
-import Server.Moves.*;
+import Moves.*;
 import org.javatuples.Pair;
 
 /**
@@ -32,7 +32,6 @@ public class Game implements Runnable {
         moves = new Move[]{new Empty(), new Empty()};
         prev = new Map(boardSize);
         curr = new Map(boardSize);
-        p2.goodMove(new Empty(), curr);
     }
 
     /**
@@ -93,16 +92,13 @@ public class Game implements Runnable {
             }
         } catch (ConnectionTroubleException ex) {
             //Unfinished game
-            player[0].endGame("CONNECTION", 0, 0);
-            player[1].endGame("CONNECTION", 0, 1);
+            player[turn.getIndex()].endGame("CONNECTION", 1, 0);
+            player[turn.getOpposite().getIndex()].endGame("CONNECTION", 0, 1);
             return;
         } catch (GiveUpException ex) {
             if (turn == Color.Black) {
-                Pair<Integer, Integer> res = getScore();
-                player[0].endGame("GIVEUP", res.getValue0(), res.getValue1());
-                player[1].endGame("GIVEUP", res.getValue1(), res.getValue0());
-                //player[0].endGame("GIVEUP",0,999);
-                //player[1].endGame("GIVEUP",999,0);
+                player[0].endGame("GIVEUP",0,999);
+                player[1].endGame("GIVEUP",999,0);
             } else {
                 player[0].endGame("GIVEUP", 999, 0);
                 player[1].endGame("GIVEUP", 0, 999);
