@@ -24,6 +24,6 @@ public class PutStone implements Move {
     }
 
     public String pretty(){
-        return "Kamień na "+(char)(65 + x)+y;
+        return "Kamień na "+(char)(65 + x)+(y+1);
     }
 }

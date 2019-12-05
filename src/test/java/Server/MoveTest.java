@@ -1,9 +1,8 @@
 package Server;
 
+import Moves.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class MoveTest {
 
@@ -12,6 +11,14 @@ class MoveTest {
         Assertions.assertEquals(new Pass().toString(), Move.getMove("PASS").toString());
         //Assertions.assertEquals(new GiveUp().toString(), Move.getMove("GIVEUP").toString());
         Assertions.assertEquals(new PutStone(3, 7).toString(), Move.getMove("PUTSTONE 3 7").toString());
+    }
+
+    @Test
+    void prettyMove() {
+        Assertions.assertEquals("Pass", new Pass().pretty());
+        Assertions.assertEquals("-", new Empty().pretty());
+        Assertions.assertEquals("Kamień na C5", new PutStone(2,4).pretty());
+        Assertions.assertEquals("Poddał się", new GiveUp().pretty());
     }
 
     @Test
