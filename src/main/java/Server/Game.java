@@ -103,6 +103,7 @@ public class Game implements Runnable {
                 player[0].endGame("GIVEUP", 999, 0);
                 player[1].endGame("GIVEUP", 0, 999);
             }
+            return;
         }
         Pair<Integer, Integer> res = getScore();
         player[0].endGame("PASS", res.getValue0(), res.getValue1());

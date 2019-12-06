@@ -59,14 +59,17 @@ final public class Queue {
         if (size == 9) {
             if (waitFor9 != null) {
                 createGame(waitFor9, hp, size);
+                waitFor9 = null;
             } else waitFor9 = hp;
         } else if (size == 13) {
             if (waitFor13 != null) {
                 createGame(waitFor13, hp, size);
+                waitFor13 = null;
             } else waitFor13 = hp;
         } else if (size == 19) {
             if (waitFor19 != null) {
                 createGame(waitFor19, hp, size);
+                waitFor19 = null;
             } else waitFor19 = hp;
         }
     }

@@ -55,7 +55,7 @@ public class Bot implements Player {
     }
 
     @Override
-    public Move getMove(Move prevMove, Map map) {
+    public Move getMove(final Move enemyMove, Map map) {
         computePossibilities(map);
         prevMove = getBestMove();
         return prevMove;

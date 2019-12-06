@@ -31,7 +31,7 @@ class ServerTest {
     }
 
     @Test
-    void conection() {
+    void TCPConnection() {
         Thread t = new Thread(() -> {
             new Server(3213);
         });
@@ -41,7 +41,12 @@ class ServerTest {
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             in.readLine();
-            out.println("HUMAN!9");
+            out.println("BOT!9");
+            in.readLine();
+            out.println("WAITING");
+            in.readLine();
+            out.println("GIVEUP");
+            in.readLine();
         } catch (IOException e) {
             Assertions.fail();
         }

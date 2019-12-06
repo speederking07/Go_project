@@ -20,7 +20,6 @@ class GameTest {
         }
         Thread t = new Thread(new Game(p1,p2,13));
         t.start();
-        sleep(1000);
-        t.stop();
+        t.join();
     }
 }
