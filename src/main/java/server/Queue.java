@@ -45,7 +45,7 @@ final public class Queue {
             p1.endGame("ConnectionTrouble", 0, 0);
             p2.endGame("ConnectionTrouble", 0, 0);
         }
-        Thread t = new Thread(new Game(p1, p2, size));
+        Thread t = new Thread(new GoGame(p1, p2, size));
         t.start();
     }
 

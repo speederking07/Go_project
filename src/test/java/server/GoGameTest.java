@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static java.lang.Thread.sleep;
 
-class GameTest {
+class GoGameTest {
     @Test
     void twoBotsTest() throws InterruptedException {
         Player p1 = new Bot(13);
@@ -17,7 +17,7 @@ class GameTest {
             p1.endGame("ConnectionTrouble", 0, 0);
             p2.endGame("ConnectionTrouble", 0, 0);
         }
-        Thread t = new Thread(new Game(p1,p2,13));
+        Thread t = new Thread(new GoGame(p1,p2,13));
         t.start();
         t.join();
     }
