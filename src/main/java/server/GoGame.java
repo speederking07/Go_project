@@ -24,7 +24,7 @@ public class GoGame implements Game {
      * @param p2        - white player
      * @param boardSize - board size
      */
-    public GoGame(Player p1, Player p2, int boardSize) {
+    GoGame(Player p1, Player p2, int boardSize) {
         player = new Player[2];
         player[0] = p1;
         player[1] = p2;
@@ -94,19 +94,10 @@ public class GoGame implements Game {
                 player[turn.getIndex()].goodMove(moves[turn.getOpposite().getIndex()], curr.clone());
                 turn = turn.getOpposite();
             }
-        } catch (ConnectionTroubleException ex) {
+        } catch (ConnectionTroubleException | GiveUpException ex) {
             //Unfinished game
-            player[turn.getIndex()].endGame("CONNECTION", 1, 0);
-            player[turn.getOpposite().getIndex()].endGame("CONNECTION", 0, 1);
-            return;
-        } catch (GiveUpException ex) {
-            if (turn == Color.Black) {
-                player[0].endGame("GIVEUP",0,999);
-                player[1].endGame("GIVEUP",999,0);
-            } else {
-                player[0].endGame("GIVEUP", 999, 0);
-                player[1].endGame("GIVEUP", 0, 999);
-            }
+            player[turn.getIndex()].endGame(ex.toString(), 0, 999);
+            player[turn.getOpposite().getIndex()].endGame(ex.toString(), 999, 1);
             return;
         }
         Pair<Integer, Integer> res = getScore();
