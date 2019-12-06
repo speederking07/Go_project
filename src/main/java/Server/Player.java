@@ -27,7 +27,7 @@ public interface Player {
     void goodMove(final Move prevMove, final Map map);
 
     /**
-     * Call in case of invalid move was get form getMove
+     * Call in case of invalid move was get from getMove
      *
      * @param ex - type of illegal move
      * @return - new move to preform
