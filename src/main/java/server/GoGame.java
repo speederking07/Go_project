@@ -15,7 +15,7 @@ public class GoGame implements Game {
     private Player[] player;
     private Move[] moves;
     private Map prev, curr, safeCopy;
-    private int[] POW; //Taken enemy stones
+    private int[] pow; //Taken enemy stones
 
     /**
      * Creates games
@@ -28,7 +28,7 @@ public class GoGame implements Game {
         player = new Player[2];
         player[0] = p1;
         player[1] = p2;
-        POW = new int[2];
+        pow = new int[2];
         moves = new Move[]{new Empty(), new Empty()};
         prev = new Map(boardSize);
         curr = new Map(boardSize);
@@ -41,7 +41,7 @@ public class GoGame implements Game {
      */
     private Pair<Integer, Integer> getScore() {
         Pair<Integer, Integer> areaRes = curr.getAreaPoints();
-        return new Pair<>(areaRes.getValue0() + POW[0], areaRes.getValue1() + POW[1]);
+        return new Pair<>(areaRes.getValue0() + pow[0], areaRes.getValue1() + pow[1]);
     }
 
     /**
@@ -57,10 +57,14 @@ public class GoGame implements Game {
             PutStone p = (PutStone) move;
             int pow = curr.putStone(p.getX(), p.getY(), turn);
             if (!(moves[turn.getOpposite().getIndex()] instanceof Pass) &&
-                    prev.toString().equals(curr.toString())) throw new KoException();
+                    prev.toString().equals(curr.toString())){
+                throw new KoException();
+            }
             prev = safeCopy;
-            POW[turn.getIndex()] += pow;
-        } else if (move instanceof GiveUp) throw new GiveUpException();
+            this.pow[turn.getIndex()] += pow;
+        } else if (move instanceof GiveUp){
+            throw new GiveUpException();
+        }
         moves[turn.getIndex()] = move;
     }
 
@@ -69,7 +73,7 @@ public class GoGame implements Game {
      * Responsible of gating moves from players and giving them final score
      */
     @Override
-    public void run() {
+    public final void run() {
         try {
             while (!(moves[0] instanceof Pass) || !(moves[1] instanceof Pass)) { //Till two player won't pass
                 IllegalMoveException exception = null;

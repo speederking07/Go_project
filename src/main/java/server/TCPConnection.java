@@ -34,7 +34,7 @@ public class TCPConnection implements Runnable, Connection {
      * Initialize connection and add game to queue
      */
     @Override
-    public void initializeConnection(){
+    public void initializeConnection() {
         Thread thread = new Thread(this);
         thread.start();
     }
@@ -99,8 +99,11 @@ public class TCPConnection implements Runnable, Connection {
     @Override
     final public boolean isAlive() {
         try {
-            if (communicate(PING_STRING).equals(PING_STRING)) return true;
-            else socket.close();
+            if (communicate(PING_STRING).equals(PING_STRING)) {
+                return true;
+            } else {
+                socket.close();
+            }
         } catch (ConnectionTroubleException | IOException ex) {
             System.out.println("unable to close connection");
         }
@@ -115,7 +118,9 @@ public class TCPConnection implements Runnable, Connection {
         try {
             String ans = communicate("HEY");
             String[] data = ans.split("!");
-            if (data.length != 2) throw new IllegalArgumentException();
+            if (data.length != 2) {
+                throw new IllegalArgumentException();
+            }
             if (data[0].equals("HUMAN")) {
                 Queue.getInstance().makeGameWithPlayer(new TCPPlayer(this), Integer.parseInt(data[1]));
             } else if (data[0].equals("BOT")) {

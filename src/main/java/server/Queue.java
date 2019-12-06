@@ -5,7 +5,7 @@ import server.exceprions.ConnectionTroubleException;
 /**
  * Singleton responsible of matchmaking
  */
-final public class Queue {
+final class Queue {
     private volatile static Queue instance;
     private Player waitFor9, waitFor13, waitFor19;
 
@@ -24,7 +24,9 @@ final public class Queue {
     public static Queue getInstance() {
         if (instance == null) {
             synchronized (Queue.class) {
-                if (instance == null) instance = new Queue();
+                if (instance == null){
+                    instance = new Queue();
+                }
             }
         }
         return instance;
@@ -60,17 +62,23 @@ final public class Queue {
             if (waitFor9 != null) {
                 createGame(waitFor9, hp, size);
                 waitFor9 = null;
-            } else waitFor9 = hp;
+            } else{
+                waitFor9 = hp;
+            }
         } else if (size == 13) {
             if (waitFor13 != null) {
                 createGame(waitFor13, hp, size);
                 waitFor13 = null;
-            } else waitFor13 = hp;
+            } else{
+                waitFor13 = hp;
+            }
         } else if (size == 19) {
             if (waitFor19 != null) {
                 createGame(waitFor19, hp, size);
                 waitFor19 = null;
-            } else waitFor19 = hp;
+            } else{
+                waitFor19 = hp;
+            }
         }
     }
 

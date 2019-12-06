@@ -28,7 +28,9 @@ public enum Color {
      * @return - opposite color
      */
     public Color getOpposite() {
-        if (this == Color.White) return Color.Black;
+        if (this == Color.White){
+            return Color.Black;
+        }
         return Color.White;
     }
 
@@ -39,7 +41,9 @@ public enum Color {
      */
     @Override
     public String toString() {
-        if (this == Color.White) return "WHITE";
+        if (this == Color.White){
+            return "WHITE";
+        }
         return "BLACK";
     }
 }

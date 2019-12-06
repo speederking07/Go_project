@@ -9,12 +9,12 @@ public enum Direction {
     S(1, 0),
     E(0, 1);
 
-    private final int XAx;
-    private final int YAx;
+    private final int xAx;
+    private final int yAx;
 
     Direction(int x, int y) {
-        XAx = x;
-        YAx = y;
+        xAx = x;
+        yAx = y;
     }
 
     /**
@@ -25,10 +25,10 @@ public enum Direction {
     }
 
     public int getX() {
-        return XAx;
+        return xAx;
     }
 
     public int getY() {
-        return YAx;
+        return yAx;
     }
 }

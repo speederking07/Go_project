@@ -1,17 +1,17 @@
 package server;
 
+import org.javatuples.Pair;
+import org.javatuples.Triplet;
 import server.exceprions.IllegalMoveException;
 import server.exceprions.IllegalPositionException;
 import server.exceprions.SuicideException;
-import org.javatuples.Pair;
-import org.javatuples.Triplet;
 
 import java.util.Arrays;
 
 /**
  * Class representing state of games board
  */
-public class Map implements Cloneable {
+public final class Map implements Cloneable {
     private static final char EMPTY_CHAR = 'E';
     private static final char WHITE_CHAR = 'W';
     private static final char BLACK_CHAR = 'B';
@@ -57,8 +57,9 @@ public class Map implements Cloneable {
         freeW = m.freeW;
         freeB = m.freeB;
         map = new int[size + 2][size + 2];
-        for (int i = 0; i < size + 2; i++)
+        for (int i = 0; i < size + 2; i++) {
             System.arraycopy(m.map[i], 0, map[i], 0, size + 2);
+        }
     }
 
     /**
@@ -182,9 +183,13 @@ public class Map implements Cloneable {
         StringBuilder builder = new StringBuilder(size * size);
         for (int i = 1; i <= size; i++) {
             for (int j = 1; j <= size; j++) {
-                if (map[i][j] % 3 == 0) builder.append(EMPTY_CHAR);
-                else if (map[i][j] % 3 == 2) builder.append(WHITE_CHAR);
-                else if (map[i][j] % 3 == 1) builder.append(BLACK_CHAR);
+                if (map[i][j] % 3 == 0) {
+                    builder.append(EMPTY_CHAR);
+                } else if (map[i][j] % 3 == 2) {
+                    builder.append(WHITE_CHAR);
+                } else if (map[i][j] % 3 == 1) {
+                    builder.append(BLACK_CHAR);
+                }
             }
         }
         return builder.toString();
@@ -227,15 +232,21 @@ public class Map implements Cloneable {
         for (Direction d : Direction.directions()) {
             int temp = map[x + d.getX()][y + d.getY()];
             if (c == Color.Black) {
-                if (temp % 3 == 1) friendly++;
-                else if (temp % 3 == 2) opponent++;
-                else if (temp == 3);
-                else empty++;
+                if (temp % 3 == 1) {
+                    friendly++;
+                } else if (temp % 3 == 2) {
+                    opponent++;
+                } else if (temp != 3) {
+                    empty++;
+                }
             } else {
-                if (temp % 3 == 2) friendly++;
-                else if (temp % 3 == 1) opponent++;
-                else if (temp == 3);
-                else empty++;
+                if (temp % 3 == 2) {
+                    friendly++;
+                } else if (temp % 3 == 1) {
+                    opponent++;
+                } else if (temp != 3) {
+                    empty++;
+                }
             }
         }
         return new Triplet<>(friendly, opponent, empty);
@@ -294,9 +305,9 @@ public class Map implements Cloneable {
             map[x][y] = freeW;
             for (Direction d : Direction.directions()) {
                 if (map[x + d.getX()][y + d.getY()] % 3 == 0 && map[x + d.getX()][y + d.getY()] != 3
-                        || map[x + d.getX()][y + d.getY()] % 3 == 2 && hasBreaths(x + d.getX(), y + d.getY()))
+                        || map[x + d.getX()][y + d.getY()] % 3 == 2 && hasBreaths(x + d.getX(), y + d.getY())) {
                     suicide = false;
-                else if (map[x + d.getX()][y + d.getY()] % 3 == 1 && !hasBreaths(x + d.getX(), y + d.getY())) {
+                } else if (map[x + d.getX()][y + d.getY()] % 3 == 1 && !hasBreaths(x + d.getX(), y + d.getY())) {
                     points += replace(map[x + d.getX()][y + d.getY()], 0);
                     suicide = false;
                 }
@@ -305,9 +316,11 @@ public class Map implements Cloneable {
             map[x][y] = freeB;
             for (Direction d : Direction.directions()) {
                 if (map[x + d.getX()][y + d.getY()] % 3 == 0 && map[x + d.getX()][y + d.getY()] != 3
-                        || map[x + d.getX()][y + d.getY()] % 3 == 1 && hasBreaths(x + d.getX(), y + d.getY()))
+                        || map[x + d.getX()][y + d.getY()] % 3 == 1 && hasBreaths(x + d.getX(), y + d.getY())) {
+
+
                     suicide = false;
-                else if ((map[x + d.getX()][y + d.getY()] % 3 == 2) && (!hasBreaths(x + d.getX(), y + d.getY()))) {
+                } else if ((map[x + d.getX()][y + d.getY()] % 3 == 2) && (!hasBreaths(x + d.getX(), y + d.getY()))) {
                     points += replace(map[x + d.getX()][y + d.getY()], 0);
                     suicide = false;
                 }
