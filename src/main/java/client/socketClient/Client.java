@@ -22,7 +22,7 @@ public class Client {
                     goClient = new Client();
             }
         }
-        return new Client();
+        return goClient;
     }
 
     private void listenSocket() {
