@@ -6,7 +6,7 @@ public class GiveUp implements Move {
         return "GIVEUP";
     }
 
-    public String pretty(){
+    public String pretty(int board){
         return "Poddał się";
     }
 }

@@ -6,7 +6,7 @@ public class Pass implements Move {
         return "PASS";
     }
 
-    public String pretty(){
+    public String pretty(int board){
         return "Pass";
     }
 }

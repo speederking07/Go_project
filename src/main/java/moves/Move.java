@@ -27,5 +27,5 @@ public interface Move {
      * Generates string to display
      * @return - pretty string
      */
-    public String pretty();
+    public String pretty(int board);
 }

@@ -6,7 +6,7 @@ public class Empty implements Move {
         return "EMPTY";
     }
 
-    public String pretty(){
+    public String pretty(int board){
         return "-";
     }
 }

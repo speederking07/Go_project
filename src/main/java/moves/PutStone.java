@@ -23,7 +23,7 @@ public class PutStone implements Move {
         return y;
     }
 
-    public String pretty(){
+    public String pretty(int board){
         return "Kamień na "+(char)(65 + x)+(y+1);
     }
 }
