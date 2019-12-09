@@ -15,10 +15,10 @@ class MoveTest {
 
     @Test
     void prettyMove() {
-        Assertions.assertEquals("Pass", new Pass().pretty());
-        Assertions.assertEquals("-", new Empty().pretty());
-        Assertions.assertEquals("Kamień na C5", new PutStone(2,4).pretty());
-        Assertions.assertEquals("Poddał się", new GiveUp().pretty());
+        Assertions.assertEquals("Pass", new Pass().pretty(9));
+        Assertions.assertEquals("-", new Empty().pretty(9));
+        Assertions.assertEquals("Kamień na C1", new PutStone(2,0).pretty(9));
+        Assertions.assertEquals("Poddał się", new GiveUp().pretty(9));
     }
 
     @Test
