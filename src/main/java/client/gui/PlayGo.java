@@ -13,7 +13,7 @@ public class PlayGo extends JFrame implements GuiInterface, ObserverInterface
     private static final long serialVersionUID = 1L;
     PanelBoardClass myPanelBoard;
     PanelActionClass myPanelAction;
-    ClientConnection connection;
+    ConnectionInterface connection;
     String startMessage;
     int boardSize;
     public PlayGo(int boardSize, String opponent, ChooseBoardInterface status)
