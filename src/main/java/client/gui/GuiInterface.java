@@ -1,5 +1,7 @@
 package client.gui;
 
+import moves.Move;
+
 public interface GuiInterface
 {
     public void wrongMove(String reason);
@@ -7,7 +9,7 @@ public interface GuiInterface
     public void changeTurn();
     public void setColor(String color);
     public void setOpponent(String opponent);
-    public void setOpponentMove(String move);
+    public void setOpponentMove(Move move);
     public void setStonePositions(char[] stonePositions);
     public String getStartMessage();
 }

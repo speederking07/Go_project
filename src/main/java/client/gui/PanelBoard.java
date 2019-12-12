@@ -3,6 +3,8 @@ package client.gui;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
+import java.util.ArrayList;
 
 public class PanelBoard extends PanelBoardClass
 {
@@ -14,16 +16,17 @@ public class PanelBoard extends PanelBoardClass
     Image blackPawnImage;
     Image whitePawnImage;
     Point point;
-    int boardSize;
+    public int boardSize;
     Point[][] places;
     Point nearestPoint;
     int borderPixel;
     int pixelSize;
-    ObserverInterface gui;
-    private char[] stonePositions;
+    List<ObserverInterface> guis;
+    char[] stonePositions;
     boolean yourTurn;
     public PanelBoard(int boardSize)
     {
+        guis = new ArrayList<>();
         this.boardSize=boardSize;
         yourTurn=true;
         places = new Point[boardSize][boardSize];
@@ -109,7 +112,7 @@ public class PanelBoard extends PanelBoardClass
                             y=j;
                         }
                     }
-                    notifyObserver(gui,"PUTSTONE " + x + " " + y);
+                    notifyObserver("PUTSTONE " + x + " " + y);
             }
         }
     }
@@ -138,16 +141,17 @@ public class PanelBoard extends PanelBoardClass
 
     @Override
     public void addObserver(ObserverInterface gui) {
-        this.gui=gui;
+        guis.add(gui);
     }
 
     @Override
     public void removeObserver(ObserverInterface gui) {
-        this.gui=null;
+        guis.remove(gui);
     }
 
     @Override
-    public void notifyObserver(ObserverInterface gui, String message) {
-        gui.reactOnEvent(message);
+    public void notifyObserver(String message) {
+        for(ObserverInterface obs : guis )
+            obs.reactOnEvent(message);
     }
 }

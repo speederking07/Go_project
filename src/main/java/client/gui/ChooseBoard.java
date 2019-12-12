@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class ChooseBoard extends JFrame implements ActionListener, Runnable
+public class ChooseBoard extends JFrame implements ActionListener, Runnable, ChooseBoardInterface
 {
     /**
      *
@@ -16,10 +16,10 @@ public class ChooseBoard extends JFrame implements ActionListener, Runnable
     JLabel statusInfoJLabel;
     JLabel displayHelpJLabel;
     JToggleButton JToggleButton9x9;
-    JToggleButton JToggleButton13x13;
-    JToggleButton JToggleButton19x19;
-    JToggleButton botJToggleButton;
-    JToggleButton playerJToggleButton;
+    public JToggleButton JToggleButton13x13;
+    public JToggleButton JToggleButton19x19;
+    public JToggleButton botJToggleButton;
+    public JToggleButton playerJToggleButton;
     JButton playJButton;
     boolean sizeSelected;
     boolean playerSelected;
@@ -154,6 +154,7 @@ public class ChooseBoard extends JFrame implements ActionListener, Runnable
         setVisible(false);
     }
 
+    @Override
     public void setStatus(String status)
     {
         statusInfoJLabel.setText(status);

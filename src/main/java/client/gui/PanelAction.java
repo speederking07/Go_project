@@ -4,6 +4,8 @@ import javax.swing.*;
 
 import java.awt.event.*;
 import java.awt.*;
+import java.util.List;
+import java.util.ArrayList;
 
 public class PanelAction extends PanelActionClass implements ActionListener
 {
@@ -21,9 +23,10 @@ public class PanelAction extends PanelActionClass implements ActionListener
     JLabel whatColorInfoJLabel;
     JButton passJButton;
     JButton surrenderJButton;
-    ObserverInterface gui;
+    List<ObserverInterface> guis;
     public PanelAction()
     {
+        guis = new ArrayList<>();
         whatColorJLabel = new JLabel("Twoj kolor to: ", JLabel.CENTER);
         whatColorInfoJLabel = new JLabel("", JLabel.CENTER);
         opponentJLabel = new JLabel("Grasz przeciwko:",JLabel.CENTER);
@@ -31,7 +34,7 @@ public class PanelAction extends PanelActionClass implements ActionListener
         actionInfoJLabel = new JLabel("Ostatni ruch przeciwnika:",JLabel.CENTER);
         opponentMoveJLabel = new JLabel("",JLabel.CENTER);
         whichTurnJLabel = new JLabel("Teraz ruch:",JLabel.CENTER);
-        whichTurnInfoJLabel = new JLabel("Twoj:",JLabel.CENTER);
+        whichTurnInfoJLabel = new JLabel("Twoj",JLabel.CENTER);
 
         whatColorJLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
         whatColorInfoJLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
@@ -70,9 +73,9 @@ public class PanelAction extends PanelActionClass implements ActionListener
     public void actionPerformed(ActionEvent e)
     {
         if(e.getActionCommand().equals("Spasuj"))
-            notifyObserver(gui,"PASS");
+            notifyObserver("PASS");
         if(e.getActionCommand().equals("Poddaj się"))
-            notifyObserver(gui,"GIVEUP");
+            notifyObserver("GIVEUP");
     }
 
     
@@ -109,16 +112,17 @@ public class PanelAction extends PanelActionClass implements ActionListener
 
     @Override
     public void addObserver(ObserverInterface gui) {
-        this.gui=gui;
+        guis.add(gui);
     }
 
     @Override
     public void removeObserver(ObserverInterface gui) {
-        this.gui=null;
+        guis.remove(gui);
     }
 
     @Override
-    public void notifyObserver(ObserverInterface gui, String message) {
-        gui.reactOnEvent(message);
+    public void notifyObserver(String message) {
+        for(ObserverInterface obs : guis )
+            obs.reactOnEvent(message);
     }
 }

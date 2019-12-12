@@ -3,6 +3,7 @@ package client.gui;
 import javax.swing.*;
 import java.awt.*;
 import client.connection.*;
+import moves.Move;
 
 public class PlayGo extends JFrame implements GuiInterface, ObserverInterface
 {
@@ -14,23 +15,25 @@ public class PlayGo extends JFrame implements GuiInterface, ObserverInterface
     PanelActionClass myPanelAction;
     ClientConnection connection;
     String startMessage;
-    public PlayGo(int boardSize, String opponent, ChooseBoard status)
+    int boardSize;
+    public PlayGo(int boardSize, String opponent, ChooseBoardInterface status)
     {
+        this.boardSize=boardSize;
         startMessage = opponent + "!" + boardSize;
         
-        connection=new ClientConnection(this);
         myPanelAction=new PanelAction();
         myPanelAction.addObserver(this);
         myPanelBoard=new PanelBoard(boardSize);
         myPanelBoard.addObserver(this);
         
+        connection=new ClientConnection(this);
         status.setStatus("Oczekiwanie na gracza");
         connection.startGame();
         setOpponent(opponent);
         
         setLayout(new BorderLayout());
-        add(myPanelBoard, BorderLayout.CENTER);
         add(myPanelAction, BorderLayout.LINE_END);
+        add(myPanelBoard, BorderLayout.CENTER);
         
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,8 +68,8 @@ public class PlayGo extends JFrame implements GuiInterface, ObserverInterface
     }
 
     @Override
-    public void setOpponentMove(String move) {
-        myPanelAction.setOpponentMove(move);
+    public void setOpponentMove(Move move) {
+        myPanelAction.setOpponentMove(move.pretty(boardSize));
     }
 
     @Override

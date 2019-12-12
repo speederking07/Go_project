@@ -6,4 +6,5 @@ public interface ConnectionInterface
     public void startGame();
     public void sendToServer(String message);
     public String recieveFromServer();
+    public void waitForAnswer();
 }
