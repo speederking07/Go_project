@@ -14,10 +14,16 @@ import java.io.*;
 
 public class ClientTest
 {
+    static ServerSocket server;
+    public static void prepare() throws IOException
+    {
+        if(server==null)
+            server = new ServerSocket(4442);
+    }
     @Test
     public void singletonTest() throws IOException, InterruptedException
     {
-        ServerSocket server = new ServerSocket(4444);
+        prepare();
         List<Thread> threads = new ArrayList<Thread>();
         Client[] clients = new Client[10];
         for(int i=0; i<10; i++)
@@ -32,10 +38,8 @@ public class ClientTest
 				// just wait it to die
             }
         }
-
         for(int i=1; i<10; i++)
             assertSame(clients[0], clients[i]);
-        server.close();
     }
     private class singletonThread implements Runnable
     {
@@ -48,33 +52,26 @@ public class ClientTest
         }
         @Override
         public void run() {
-            clients[i]=Client.getInstance();
+            clients[i]=Client.getInstance(4442);
         }
         
     }
     @Test
-    public void sendToServerTest() throws IOException
+    public void communicationTest() throws IOException
     {
-        ServerSocket server = new ServerSocket(4444);
-        Client client2 = Client.getInstance();
-        BufferedReader in = new BufferedReader(new InputStreamReader(server.accept().getInputStream()));
+        prepare();
+        Client client2 = Client.getInstance(4442);
+        Socket socket = server.accept();
+        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
         client2.sendToServer("message");
         String message;
         message = in.readLine();
         assertEquals("message", message);
-        server.close();
-    }
 
-    @Test
-    public void reciveFromServer() throws IOException
-    {
-        ServerSocket server = new ServerSocket(4444);
-        Client client2 = Client.getInstance();
-        PrintWriter out = new PrintWriter(server.accept().getOutputStream(), true);
-
+        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
         out.println("message");
-        String message = client2.recieveFromServer();
+        message = client2.recieveFromServer();
         assertEquals("message", message);
         server.close();
     }
