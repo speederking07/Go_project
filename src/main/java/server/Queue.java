@@ -24,7 +24,7 @@ final class Queue {
     public static Queue getInstance() {
         if (instance == null) {
             synchronized (Queue.class) {
-                if (instance == null){
+                if (instance == null) {
                     instance = new Queue();
                 }
             }
@@ -39,13 +39,21 @@ final class Queue {
      * @param p2   - white player
      * @param size - board size
      */
-    private void createGame(Player p1, Player p2, int size) {
+    private synchronized void createGame(Player p1, Player p2, int size) {
         try {
             p1.startGame(Color.Black);
+        } catch (ConnectionTroubleException ex) {
+            if (size == 9) waitFor9 = p2;
+            else if (size == 13) waitFor13 = p2;
+            else if (size == 19) waitFor19 = p2;
+            return;
+        }
+        try {
             p2.startGame(Color.White);
         } catch (ConnectionTroubleException ex) {
             p1.endGame("ConnectionTrouble", 0, 0);
             p2.endGame("ConnectionTrouble", 0, 0);
+            return;
         }
         Thread t = new Thread(new GoGame(p1, p2, size));
         t.start();
@@ -62,21 +70,21 @@ final class Queue {
             if (waitFor9 != null) {
                 createGame(waitFor9, hp, size);
                 waitFor9 = null;
-            } else{
+            } else {
                 waitFor9 = hp;
             }
         } else if (size == 13) {
             if (waitFor13 != null) {
                 createGame(waitFor13, hp, size);
                 waitFor13 = null;
-            } else{
+            } else {
                 waitFor13 = hp;
             }
         } else if (size == 19) {
             if (waitFor19 != null) {
                 createGame(waitFor19, hp, size);
                 waitFor19 = null;
-            } else{
+            } else {
                 waitFor19 = hp;
             }
         }
