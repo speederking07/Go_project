@@ -17,7 +17,7 @@ public class ClientConnection implements Runnable, ConnectionInterface
     @Override
     public void startConnection()
     {
-        myClient = Client.getInstance();
+        myClient = Client.getInstance(4444);
         sendToServer(gui.getStartMessage());
         recieveFromServer();
     }
