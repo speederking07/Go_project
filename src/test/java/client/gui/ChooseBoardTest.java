@@ -1,4 +1,4 @@
-package Client;
+package client.gui;
 
 import static org.junit.Assert.assertEquals;
 
@@ -6,13 +6,15 @@ import java.awt.event.ActionEvent;
 
 import org.junit.jupiter.api.Test;
 
+import client.gui.ChooseBoard;
 
-public class chooseBoardTest
+
+public class ChooseBoardTest
 {
     @Test
     public void isPressedTest()   
     {
-        chooseBoard frame = new chooseBoard();
+        ChooseBoard frame = new ChooseBoard();
         
         assertEquals(true, frame.isVisible());
 
@@ -47,7 +49,7 @@ public class chooseBoardTest
     @Test
     public void isVisibleTest()
     {
-        chooseBoard frame = new chooseBoard();
+        ChooseBoard frame = new ChooseBoard();
 
         frame.actionPerformed(new ActionEvent(frame, 0, "Graj"));
         

@@ -3,10 +3,10 @@ package client.socketClient;
 import java.io.*;
 import java.net.*;
 
-public class Client {
+public class Client implements ClientInterface{
     Socket socket;
     PrintWriter outMessage;
-    BufferedReader inMessage;
+    public BufferedReader inMessage;
     static Client goClient;
 
     private Client() {
@@ -41,11 +41,12 @@ public class Client {
         }
     }
 
-
+    @Override
     public void sendToServer(String message) {
         outMessage.println(message);
     }
 
+    @Override
     public String recieveFromServer() {
         String message;
         try {

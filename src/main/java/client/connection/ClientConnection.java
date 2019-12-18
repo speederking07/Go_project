@@ -6,7 +6,7 @@ import client.gui.*;
 
 public class ClientConnection implements Runnable, ConnectionInterface
 {
-    Client myClient;
+    ClientInterface myClient;
     GuiInterface gui;
     public ClientConnection(GuiInterface gui)
     {
@@ -58,7 +58,14 @@ public class ClientConnection implements Runnable, ConnectionInterface
     {
         while(true)
         {
-            String message = recieveFromServer();
+            waitForAnswer();
+        }
+    }
+
+    @Override
+    public void waitForAnswer()
+    {
+        String message = recieveFromServer();
             if(message.contains("!"))
             {
                 String[] stringParts = message.split("!");
@@ -68,16 +75,15 @@ public class ClientConnection implements Runnable, ConnectionInterface
                 }
                 else if(stringParts[0].equals("ENDGAME"))
                 {
-                    gui.endGame(Move.getMove(stringParts[1]).pretty(), stringParts[2], stringParts[3]);
+                    gui.endGame(stringParts[1], stringParts[2], stringParts[3]);
                 }
                 else 
                 {
                     gui.changeTurn();
-                    gui.setOpponentMove(Move.getMove(stringParts[0]).pretty());
+                    gui.setOpponentMove(Move.getMove(stringParts[0]));
                     gui.setStonePositions(stringParts[1].toCharArray());
                 }
             }
-        }
     }
 
 }
