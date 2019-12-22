@@ -1,5 +1,9 @@
 package server;
 
+import org.hibernate.Session;
+import server.database.DBGame;
+import server.database.DBMove;
+import server.database.HibernateFactory;
 import server.exceprions.ConnectionTroubleException;
 import server.exceprions.GiveUpException;
 import server.exceprions.IllegalMoveException;
@@ -12,10 +16,13 @@ import org.javatuples.Pair;
  */
 public class GoGame implements Game {
     private Color turn = Color.Black;
+    private int turnCounter;
     private Player[] player;
     private Move[] moves;
     private Map prev, curr, safeCopy;
     private int[] pow; //Taken enemy stones
+    private DBGame dbGame;
+    private Session session;
 
     /**
      * Creates games
@@ -32,6 +39,11 @@ public class GoGame implements Game {
         moves = new Move[]{new Empty(), new Empty()};
         prev = new Map(boardSize);
         curr = new Map(boardSize);
+        turnCounter = 0;
+        session = HibernateFactory.getSessionFactory().openSession();
+        session.beginTransaction();
+        dbGame = new DBGame('R');
+        session.save(dbGame);
     }
 
     /**
@@ -65,6 +77,7 @@ public class GoGame implements Game {
         } else if (move instanceof GiveUp){
             throw new GiveUpException();
         }
+        session.save(new DBMove(turnCounter, dbGame, move));
         moves[turn.getIndex()] = move;
     }
 
@@ -93,15 +106,23 @@ public class GoGame implements Game {
                 }
                 player[turn.getIndex()].goodMove(moves[turn.getOpposite().getIndex()], curr.clone());
                 turn = turn.getOpposite();
+                turnCounter++;
             }
         } catch (ConnectionTroubleException | GiveUpException ex) {
             //Unfinished game
             player[turn.getIndex()].endGame(ex.toString(), 0, 999);
             player[turn.getOpposite().getIndex()].endGame(ex.toString(), 999, 1);
+            dbGame.setResult('T');
+            session.update(dbGame);
+            session.getTransaction().commit();
             return;
         }
         Pair<Integer, Integer> res = getScore();
         player[0].endGame("PASS", res.getValue0(), res.getValue1());
         player[1].endGame("PASS", res.getValue1(), res.getValue0());
+        if(res.getValue0() > res.getValue1()) dbGame.setResult('B');
+        else dbGame.setResult('W');
+        session.update(dbGame);
+        session.getTransaction().commit();
     }
 }

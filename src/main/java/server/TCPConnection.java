@@ -109,27 +109,4 @@ public class TCPConnection implements Runnable, Connection {
         }
         return false;
     }
-
-    /**
-     * Thread body used to initialize game on server
-     */
-    @Override
-    final public void run() {
-        try {
-            String ans = communicate("HEY");
-            String[] data = ans.split("!");
-            if (data.length != 2) {
-                throw new IllegalArgumentException();
-            }
-            if (data[0].equals("HUMAN")) {
-                Queue.getInstance().makeGameWithPlayer(new TCPPlayer(this), Integer.parseInt(data[1]));
-            } else if (data[0].equals("BOT")) {
-                Queue.getInstance().makeGameWithBot(new TCPPlayer(this), Integer.parseInt(data[1]));
-            } else throw new IllegalArgumentException();
-        } catch (ConnectionTroubleException ex) {
-            System.out.println("Conection truble ");
-        } catch (IllegalArgumentException ex) {
-            System.out.println("Wrong data when selecting game");
-        }
-    }
 }

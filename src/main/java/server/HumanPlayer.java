@@ -7,10 +7,10 @@ import server.exceprions.IllegalMoveException;
 /**
  * Object adapter of Connection to fit interface of Player
  */
-public class TCPPlayer implements Player {
-    private TCPConnection connection;
+public class HumanPlayer implements Player {
+    private Connection connection;
 
-    TCPPlayer(TCPConnection conn) {
+    HumanPlayer(Connection conn) {
         connection = conn;
     }
 
@@ -25,7 +25,11 @@ public class TCPPlayer implements Player {
     @Override
     public Move getMove(Move prevMove, Map map) throws ConnectionTroubleException {
         String ans = connection.communicate(prevMove.toString() + "!" + map.toString());
-        return Move.getMove(ans);
+        try {
+            return Move.getMove(ans);
+        }catch (IllegalArgumentException ex){
+            throw new ConnectionTroubleException();
+        }
     }
 
     /**

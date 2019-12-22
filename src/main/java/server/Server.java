@@ -45,7 +45,9 @@ class Server {
      *
      * @param args
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException  {
+        WebServer s = new WebServer( 8080 );
+        s.start();
         new Server(PORT);
     }
 }

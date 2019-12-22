@@ -2,7 +2,7 @@ package server;
 
 import server.exceprions.ConnectionTroubleException;
 
-public interface Connection {
+public interface Connection extends Runnable {
 
     /**
      * Initialize connection and add game to queue
@@ -39,4 +39,27 @@ public interface Connection {
      * @return - true if client is connected
      */
     public boolean isAlive();
+
+    /**
+     * Thread body used to initialize game on server
+     */
+    @Override
+    default void run() {
+        try {
+            String ans = communicate("HEY");
+            String[] data = ans.split("!");
+            if (data.length != 2) {
+                throw new IllegalArgumentException();
+            }
+            if (data[0].equals("HUMAN")) {
+                Queue.getInstance().makeGameWithPlayer(new HumanPlayer(this), Integer.parseInt(data[1]));
+            } else if (data[0].equals("BOT")) {
+                Queue.getInstance().makeGameWithBot(new HumanPlayer(this), Integer.parseInt(data[1]));
+            } else throw new IllegalArgumentException();
+        } catch (ConnectionTroubleException ex) {
+            System.out.println("Conection truble ");
+        } catch (IllegalArgumentException ex) {
+            System.out.println("Wrong data when selecting game");
+        }
+    }
 }
