@@ -1,10 +1,10 @@
-package Client;
+package client.gui;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class chooseBoard extends JFrame implements ActionListener
+public class ChooseBoard extends JFrame implements ActionListener, Runnable, ChooseBoardInterface
 {
     /**
      *
@@ -14,18 +14,20 @@ public class chooseBoard extends JFrame implements ActionListener
     JLabel choosePlayerJLabel;
     JLabel statusJLabel;
     JLabel statusInfoJLabel;
-    JLabel displayHelpJLabel;
+    JButton repeatButton;
     JToggleButton JToggleButton9x9;
-    JToggleButton JToggleButton13x13;
-    JToggleButton JToggleButton19x19;
-    JToggleButton botJToggleButton;
-    JToggleButton playerJToggleButton;
+    public JToggleButton JToggleButton13x13;
+    public JToggleButton JToggleButton19x19;
+    public JToggleButton botJToggleButton;
+    public JToggleButton playerJToggleButton;
     JButton playJButton;
     boolean sizeSelected;
     boolean playerSelected;
     int boardSize;
     String opponent;
-    public chooseBoard()
+    JLabel displayHelp;
+    boolean state;
+    public ChooseBoard()
     {
         sizeSelected=false;
         playerSelected=false;
@@ -34,19 +36,20 @@ public class chooseBoard extends JFrame implements ActionListener
         choosePlayerJLabel = new JLabel("Wybierz przeciwnika",JLabel.CENTER);
         statusJLabel = new JLabel("Status",JLabel.CENTER);
         statusInfoJLabel = new JLabel("",JLabel.CENTER);
-        displayHelpJLabel=new JLabel();
-
+        displayHelp = new JLabel("");
+        
         JToggleButton9x9=new JToggleButton("9x9");
         JToggleButton13x13=new JToggleButton("13x13");
         JToggleButton19x19=new JToggleButton("19x19");
         botJToggleButton=new JToggleButton("Bot");
         playerJToggleButton=new JToggleButton("Gracz");
         playJButton=new JButton("Graj");
+        repeatButton=new JButton("Odtworz gre");
 
         chooseBoardJLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
         choosePlayerJLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
         statusJLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
-        statusInfoJLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
+        statusInfoJLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
 
         JToggleButton9x9.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
         JToggleButton13x13.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
@@ -54,6 +57,7 @@ public class chooseBoard extends JFrame implements ActionListener
         botJToggleButton.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
         playerJToggleButton.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
         playJButton.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
+        repeatButton.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
 
         JToggleButton9x9.addActionListener(this);
         JToggleButton13x13.addActionListener(this);
@@ -61,6 +65,7 @@ public class chooseBoard extends JFrame implements ActionListener
         botJToggleButton.addActionListener(this);
         playerJToggleButton.addActionListener(this);
         playJButton.addActionListener(this);
+        repeatButton.addActionListener(this);
 
         add(chooseBoardJLabel);
         add(choosePlayerJLabel);
@@ -70,15 +75,17 @@ public class chooseBoard extends JFrame implements ActionListener
         add(statusInfoJLabel);
         add(JToggleButton13x13);
         add(playerJToggleButton);
-        add(displayHelpJLabel);
+        add(displayHelp);
         add(JToggleButton19x19);
         add(playJButton);
+        add(repeatButton);
 
         setLayout(new GridLayout(4,3));
         pack();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+
     }
 
     public void actionPerformed(ActionEvent e)
@@ -135,19 +142,42 @@ public class chooseBoard extends JFrame implements ActionListener
         {
             if(sizeSelected && playerSelected)
             {
-                statusInfoJLabel.setText("Laczenie z serwerem");
-                new playGo(boardSize, opponent);
+                state = true;
+                Thread thread = new Thread(this);
+                thread.start();
             }
             if(!sizeSelected)
                 JOptionPane.showMessageDialog(this, "Wybierz rozmiar");                
             if(!playerSelected)
                 JOptionPane.showMessageDialog(this, "Wybierz gracza");                
         }
+        if(e.getActionCommand().equals("Odtworz gre"))
+        {
+            state = false;
+            Thread thread = new Thread(this);
+            thread.start();
+        } 
     }
 
+    @Override
+    public void run()
+    {
+        setStatus("Laczenie z serwerem");
+        if(state)
+            new PlayGo(boardSize, opponent, this);
+        else
+            new ChooseGame();
+        setVisible(false);
+    }
+
+    @Override
+    public void setStatus(String status)
+    {
+        statusInfoJLabel.setText(status);
+    }
 
     public static void main(String args[])
     {
-        new chooseBoard();
+        new ChooseBoard();
     }
 }
