@@ -22,7 +22,7 @@ public class DBGame {
     @Column(name = "idGame", unique = true, nullable = false)
     private Integer id;
 
-    @Column(name = "date", unique = true, nullable = false)
+    @Column(name = "date", unique = false, nullable = false)
     private Date date;
 
     @Column(name = "result", unique = false, nullable = false)
