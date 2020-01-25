@@ -43,6 +43,7 @@ public class GoGame implements Game {
         session = HibernateFactory.getSessionFactory().openSession();
         session.beginTransaction();
         dbGame = new DBGame();
+        dbGame.setBoardSize(boardSize);
     }
 
     /**
@@ -107,20 +108,34 @@ public class GoGame implements Game {
                 turn = turn.getOpposite();
                 turnCounter++;
             }
-        } catch (ConnectionTroubleException | GiveUpException ex) {
+        }
+        catch (ConnectionTroubleException ex) {
             //Unfinished game
-            player[turn.getIndex()].endGame(ex.toString(), 0, 999);
-            player[turn.getOpposite().getIndex()].endGame(ex.toString(), 999, 1);
-            dbGame.setResult('T');
-            session.save(dbGame);
-            session.getTransaction().commit();
+            endGame("Trouble", ex);
+            return;
+        }
+        catch(GiveUpException ex) {
+            //surrender
+            if(turn.getIndex() == 0)
+                endGame("White won", ex);
+            else
+                endGame("Black won", ex);
             return;
         }
         Pair<Integer, Integer> res = getScore();
         player[0].endGame("PASS", res.getValue0(), res.getValue1());
         player[1].endGame("PASS", res.getValue1(), res.getValue0());
-        if(res.getValue0() > res.getValue1()) dbGame.setResult('B');
-        else dbGame.setResult('W');
+        if(res.getValue0() > res.getValue1()) dbGame.setResult("Black won");
+        else dbGame.setResult("White won");
+        session.save(dbGame);
+        session.getTransaction().commit();
+    }
+    //end game for surrender or connection trouble
+    private void endGame(String result, Exception ex)
+    {
+        player[turn.getIndex()].endGame(ex.toString(), 0, 999);
+        player[turn.getOpposite().getIndex()].endGame(ex.toString(), 999, 1);
+        dbGame.setResult(result);
         session.save(dbGame);
         session.getTransaction().commit();
     }
