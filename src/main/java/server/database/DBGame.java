@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
-import javax.xml.transform.Result;
+import javax.xml.*;
 
 import org.hibernate.annotations.OptimisticLockType;
 
@@ -32,9 +32,8 @@ public class DBGame {
     @JoinColumn(name="Game_idGame")
     private List<DBMove> moves;
 
-    public DBGame(Character result){
+    public DBGame(){
         date = new Date();
-        this.result = result;
     }
 
     public Integer getId() {

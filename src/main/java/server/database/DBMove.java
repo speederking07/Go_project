@@ -21,14 +21,14 @@ public class DBMove {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "turn", unique = true, nullable = false)
+    @Column(name = "turn", unique = false, nullable = false)
     private Integer turn;
 
     @ManyToOne
     @JoinColumn(name = "game_idGame")
     private DBGame game;
 
-    @Column(name = "move", unique = true, nullable = false, length = 45)
+    @Column(name = "move", unique = false, nullable = false, length = 45)
     private String move;
 
     public DBMove(Integer turn, DBGame game, Move move)
