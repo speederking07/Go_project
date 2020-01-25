@@ -24,9 +24,12 @@ public class DBGame {
 
     @Column(name = "date", unique = false, nullable = false)
     private Date date;
+    
+    @Column(name = "board_size", unique = false, nullable = false)
+    private int boardSize;
 
     @Column(name = "result", unique = false, nullable = false)
-    private Character result;
+    private String result;
 
     @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name="Game_idGame")
@@ -51,12 +54,20 @@ public class DBGame {
     public void setDate(Date date) {
         this.date = date;
     }
+    
+    public int getBoardSize() {
+        return boardSize;
+    }
 
-    public Character getResult() {
+    public void setBoardSize(int boardSize) {
+        this.boardSize = boardSize;
+    }
+
+    public String getResult() {
         return result;
     }
 
-    public void setResult(Character result) {
+    public void setResult(String result) {
         this.result = result;
     }
 }
