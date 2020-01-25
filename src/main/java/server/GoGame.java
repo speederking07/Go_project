@@ -42,8 +42,7 @@ public class GoGame implements Game {
         turnCounter = 0;
         session = HibernateFactory.getSessionFactory().openSession();
         session.beginTransaction();
-        dbGame = new DBGame('R');
-        session.save(dbGame);
+        dbGame = new DBGame();
     }
 
     /**
@@ -113,7 +112,7 @@ public class GoGame implements Game {
             player[turn.getIndex()].endGame(ex.toString(), 0, 999);
             player[turn.getOpposite().getIndex()].endGame(ex.toString(), 999, 1);
             dbGame.setResult('T');
-            session.update(dbGame);
+            session.save(dbGame);
             session.getTransaction().commit();
             return;
         }
@@ -122,7 +121,7 @@ public class GoGame implements Game {
         player[1].endGame("PASS", res.getValue1(), res.getValue0());
         if(res.getValue0() > res.getValue1()) dbGame.setResult('B');
         else dbGame.setResult('W');
-        session.update(dbGame);
+        session.save(dbGame);
         session.getTransaction().commit();
     }
 }
