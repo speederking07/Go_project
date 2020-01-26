@@ -75,6 +75,7 @@ public class GoGame implements Game {
             prev = safeCopy;
             this.pow[turn.getIndex()] += pow;
         } else if (move instanceof GiveUp){
+            session.save(new DBMove(turnCounter, dbGame, move));
             throw new GiveUpException();
         }
         session.save(new DBMove(turnCounter, dbGame, move));
