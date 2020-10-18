@@ -1,18 +1,20 @@
-package Client;
+package client.gui;
 
 import static org.junit.Assert.assertEquals;
 
 import java.awt.event.ActionEvent;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import client.gui.ChooseBoard;
 
 
-public class chooseBoardTest
+public class ChooseBoardTest
 {
     @Test
     public void isPressedTest()   
     {
-        chooseBoard frame = new chooseBoard();
+        ChooseBoard frame = new ChooseBoard();
         
         assertEquals(true, frame.isVisible());
 
@@ -29,8 +31,8 @@ public class chooseBoardTest
         assertEquals(false, frame.playerJToggleButton.isSelected());
         
     }
-
-    @Test
+    //validated
+    /*@Test
     public void isNotVisibleTest()
     {
         chooseBoard frame = new chooseBoard();
@@ -42,12 +44,12 @@ public class chooseBoardTest
         frame.actionPerformed(new ActionEvent(frame, 0, "Graj"));
 
         assertEquals(false, frame.isVisible());
-    }
+    }*/
 
     @Test
     public void isVisibleTest()
     {
-        chooseBoard frame = new chooseBoard();
+        ChooseBoard frame = new ChooseBoard();
 
         frame.actionPerformed(new ActionEvent(frame, 0, "Graj"));
         

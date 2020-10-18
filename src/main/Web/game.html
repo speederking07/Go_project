@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Go game</title>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="script.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Gochi+Hand&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="gameInit">
+    <h1>Go game :)</h1>
+    <div id="boardSizeDiv">
+        <label class="container">9x9
+            <input name="boardSize" type="radio" value="9"/>
+            <span class="checkmark"></span>
+        </label>
+        <label class="container">13x13
+            <input name="boardSize" type="radio" value="13"/>
+            <span class="checkmark"></span>
+        </label>
+        <label class="container">19x19
+            <input name="boardSize" type="radio" value="19" checked/>
+            <span class="checkmark"></span>
+        </label>
+    </div>
+    <div id="initButtonsDiv">
+        <input type="button" class="fancyButton" value="Play with bot" onclick="startGame('BOT')">
+        <input type="button" class="fancyButton" value="Play with human" onclick="startGame('HUMAN')">
+    </div>
+</div>
+<div class="waitingDiv" style="display: none">
+    <div class="loadingio-spinner-ball-9s85axgsvwk">
+        <div class="ldio-23h4l9ow0lh">
+            <div></div>
+        </div>
+    </div>
+    <p>Waiting for other player</p>
+</div>
+<div id="board" style="width: 10px">
+</div>
+<div id="buttonsDiv">
+    <input type="button" value="Pass" onclick="pass()">
+    <input type="button" value="Give Up" onclick="giveUp()">
+</div>
+</body>
+</html>

@@ -1,10 +1,10 @@
-package Client;
+package client.gui;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class chooseBoard extends JFrame implements ActionListener
+public class ChooseBoard extends JFrame implements ActionListener, Runnable, ChooseBoardInterface
 {
     /**
      *
@@ -16,16 +16,16 @@ public class chooseBoard extends JFrame implements ActionListener
     JLabel statusInfoJLabel;
     JLabel displayHelpJLabel;
     JToggleButton JToggleButton9x9;
-    JToggleButton JToggleButton13x13;
-    JToggleButton JToggleButton19x19;
-    JToggleButton botJToggleButton;
-    JToggleButton playerJToggleButton;
+    public JToggleButton JToggleButton13x13;
+    public JToggleButton JToggleButton19x19;
+    public JToggleButton botJToggleButton;
+    public JToggleButton playerJToggleButton;
     JButton playJButton;
     boolean sizeSelected;
     boolean playerSelected;
     int boardSize;
     String opponent;
-    public chooseBoard()
+    public ChooseBoard()
     {
         sizeSelected=false;
         playerSelected=false;
@@ -46,7 +46,7 @@ public class chooseBoard extends JFrame implements ActionListener
         chooseBoardJLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
         choosePlayerJLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
         statusJLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
-        statusInfoJLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
+        statusInfoJLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
 
         JToggleButton9x9.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
         JToggleButton13x13.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 30));
@@ -79,6 +79,7 @@ public class chooseBoard extends JFrame implements ActionListener
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+
     }
 
     public void actionPerformed(ActionEvent e)
@@ -135,8 +136,8 @@ public class chooseBoard extends JFrame implements ActionListener
         {
             if(sizeSelected && playerSelected)
             {
-                statusInfoJLabel.setText("Laczenie z serwerem");
-                new playGo(boardSize, opponent);
+                Thread thread = new Thread(this);
+                thread.start();
             }
             if(!sizeSelected)
                 JOptionPane.showMessageDialog(this, "Wybierz rozmiar");                
@@ -145,9 +146,22 @@ public class chooseBoard extends JFrame implements ActionListener
         }
     }
 
+    @Override
+    public void run()
+    {
+        setStatus("Laczenie z serwerem");
+        new PlayGo(boardSize, opponent, this);
+        setVisible(false);
+    }
+
+    @Override
+    public void setStatus(String status)
+    {
+        statusInfoJLabel.setText(status);
+    }
 
     public static void main(String args[])
     {
-        new chooseBoard();
+        new ChooseBoard();
     }
 }
