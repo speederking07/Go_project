@@ -1,7 +1,9 @@
 # Go project
-Implementation of go game. Created with @Szakul1.
-## Features
-- Java client
+Server for playing go game with other players or simple CPU player.
+
+##Features
+- Game client in Java
 - Web client
 - 3 board sizes
-- simple go bot implementation
+- simple CPU
+- scores saved in database
